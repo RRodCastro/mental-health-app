@@ -1,0 +1,16 @@
+.register-page {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    gap: 32px;
+    margin-top: 128px;
+
+    .register-email, .register-password, .register-name{
+        width: 80%;
+        max-width: 600px;
+    }
+    
+    button {
+        min-width: 164px;
+    }
+}

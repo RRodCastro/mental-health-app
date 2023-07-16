@@ -1,0 +1,25 @@
+.landing {
+
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    
+    .lading-image {
+        margin-bottom: 64px;
+        max-width: 1200px;
+        width: 100%;
+    }
+    
+    .landing-buttons {
+        display: flex;
+        flex-flow: column;
+        gap: 26px;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        
+        button {
+            width: 60%;
+        }
+    }
+}
