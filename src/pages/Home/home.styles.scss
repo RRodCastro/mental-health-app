@@ -1,0 +1,45 @@
+@import '../../components/journaling/journal.entry.syles.scss';
+
+.home {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+
+    .entries-container {
+        margin-top: 24px;
+        display:flex;
+        flex-flow: column;
+        gap: 16px;
+        width: 80%;
+        max-width: 800px;
+    }
+    .add-entry {
+        position: absolute;
+        bottom: 25%;
+        right: 24px;
+        background-color: $main-blue;
+
+        svg {
+            color: white;
+            width: 36px;
+            height: 36px;
+        }
+    }
+
+    .add-entry:hover {
+        background-color: $main-blue;
+    }
+}
+
+.welcome-dialog {
+    .welcome-dialog-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 24px;
+        button {
+            min-width: 164px;
+        }
+    }
+}
