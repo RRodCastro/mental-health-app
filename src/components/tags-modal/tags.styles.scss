@@ -1,0 +1,68 @@
+.tags-modal {
+  position: fixed;
+  z-index: 1300;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .tags-modal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 300px;
+    border-radius: 12px;
+    padding: 16px 32px 24px 32px;
+    background-color: white;
+    box-shadow: 0px 2px 24px #383838;
+    transform: translate(-50%, -50%);
+    text-align: center;
+
+    @media (min-width: $mobile) {
+      min-width: 400px;
+    }
+  }
+
+  .tags-modal-container-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    gap: 20px;
+
+    .search-container {
+      margin: 24px 0;
+      background-color: rgb(232 232 232 / 33%);
+
+    }
+
+    .tags-modal-container-box-entries {
+      display: flex;
+      flex-flow: column;
+      width: calc(100% - 32px);
+      gap: 8px 0;
+
+      .tags-modal-container-box-entry {
+        display: flex;
+        border-bottom: 1px solid #E8E8E8;
+        width: calc(100% - 32px);
+        padding: 4px;
+        cursor: pointer;
+        justify-content: space-between;
+
+        svg {
+          color: $main-blue;
+        }
+      }
+    }
+
+    .tags-modal-container-box-button-container  {
+      display: flex;
+      align-items: end;
+      gap: 0 8px;
+    }
+  }
+
+}

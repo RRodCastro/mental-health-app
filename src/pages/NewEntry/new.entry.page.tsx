@@ -1,20 +1,25 @@
 import { Box, Button, Fab, TextField, Typography } from "@mui/material";
-import BackComponent from "../../components/back.component";
+import BackComponent from "../../components/back/back.component";
 import { useNavigate } from "react-router-dom";
-import { LocalOffer, LocalOfferOutlined } from '@mui/icons-material';
+import { LocalOfferOutlined } from '@mui/icons-material';
+import TagsModal from "../../components/tags-modal/tags.component";
+import { useState } from "react";
 
 const NewEntry = () => {
     const navigate = useNavigate();
 
-    // create a function to handle the click event
     const handleClick = () => {
-        // navigate to the new entry page
         navigate('/home');
     }
+
+    const [tagsModalOpened, setTagsModal] = useState(false);
+
 
     return (
         <Box className="new-entry">
             <BackComponent />
+            <TagsModal shouldDisplay={tagsModalOpened} hideModal={() => setTagsModal(false)} />
+
             <Box className="new-entry-container">
                 <Typography variant="h3">
                     New Entry
@@ -29,7 +34,7 @@ const NewEntry = () => {
                     rows={20}
                     fullWidth
                 />
-                <Fab onClick={() => navigate('/new-entry')} className="add-label" aria-label="add-label">
+                <Fab onClick={() => setTagsModal(true)} className="add-label" aria-label="add-label">
                     <LocalOfferOutlined
                     fontSize="large"
                     />
