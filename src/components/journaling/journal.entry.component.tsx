@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material"
-import { DateTime } from 'luxon';
 
 export interface JournalEntry {
     date: Date,
@@ -7,10 +6,11 @@ export interface JournalEntry {
     tags: String[],
 }
 
-
-const JournalEntry = (props: JournalEntry) => {
+const JournalEntry = ({data, handleEntryClick} : {data: JournalEntry, handleEntryClick: (data: JournalEntry) => void}) => {
     return (
-        <Box className="journal-entry">
+        <Box
+         onClick={() => handleEntryClick(data)}
+         className="journal-entry">
             <Box className="journal-entry-date">
             <Typography fontWeight="600">
                 18:42
@@ -20,7 +20,7 @@ const JournalEntry = (props: JournalEntry) => {
             </Typography>
             </Box>
             <Typography>
-                {props.description}
+                {data.description}
             </Typography>
         </Box>
     )

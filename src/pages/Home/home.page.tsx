@@ -13,6 +13,8 @@ import SearchComponent from "../../components/search.component";
 import JournalEntry from "../../components/journaling/journal.entry.component";
 import { Add as AddIcon } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
+import { setSelectedEntry } from "../../services/journaling";
+import { useDispatch } from 'react-redux'
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -47,13 +49,13 @@ const entries = [
 
     },
     {
-        key: 'entry-0',
+        key: 'entry-3',
         date: new Date(),
         description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
         tags: ["anxiety", "stress", "school"]
     },
     {
-        key: 'entry-1',
+        key: 'entry-4',
         date: new Date(),
         description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
         tags: ["anxiety", "stress", "school"]
@@ -61,7 +63,7 @@ const entries = [
 
     },
     {
-        key: 'entry-2',
+        key: 'entry-5',
         date: new Date(),
         description: "Today I felt very energetic during the morning but a call with a friend made feel...",
         tags: ["anxiety", "stress", "school"]
@@ -69,13 +71,13 @@ const entries = [
 
     },
     {
-        key: 'entry-0',
+        key: 'entry-6',
         date: new Date(),
         description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
         tags: ["anxiety", "stress", "school"]
     },
     {
-        key: 'entry-1',
+        key: 'entry-7',
         date: new Date(),
         description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
         tags: ["anxiety", "stress", "school"]
@@ -83,7 +85,7 @@ const entries = [
 
     },
     {
-        key: 'entry-2',
+        key: 'entry-8',
         date: new Date(),
         description: "Today I felt very energetic during the morning but a call with a friend made feel...",
         tags: ["anxiety", "stress", "school"]
@@ -97,6 +99,8 @@ const Home = () => {
     const { welcome } = useParams();
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     const handleClose = () => {
         localStorage.setItem("welcomeMessage", "1");
@@ -135,16 +139,23 @@ const Home = () => {
             </Typography>
             <SearchComponent />
             <Box className="home-container">
-            <Box className="entries-container">
-                {entries.map((entry) => {
-                    return (
-                        <JournalEntry key={entry.key} date={entry.date} description={entry.description} tags={entry.tags} />
-                    )
-                })}
-            </Box>
-            <Fab onClick={() => navigate('/new-entry')} className="add-entry" aria-label="add">
-                <AddIcon/>
-            </Fab>
+                <Box className="entries-container">
+                    {entries.map((entry) => {
+                        return (
+                            <JournalEntry
+                                key={entry.key}
+                                data={entry}
+                                handleEntryClick={() => {
+                                    dispatch(setSelectedEntry(entry));
+                                    navigate('/entry');
+                                }}
+                            />
+                        )
+                    })}
+                </Box>
+                <Fab onClick={() => navigate('/new-entry')} className="add-entry" aria-label="add">
+                    <AddIcon />
+                </Fab>
             </Box>
         </Box>
     );

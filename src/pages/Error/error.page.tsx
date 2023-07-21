@@ -11,8 +11,8 @@ const ErrorPage = () => {
 
     return (
         <Box>
-            <Typography variant="h2">
-                Error
+            <Typography style={{textAlign: 'center'}} variant="h3">
+                Page not found
             </Typography>
         </Box>
     )

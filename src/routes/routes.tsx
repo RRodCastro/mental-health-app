@@ -1,11 +1,11 @@
 import {createBrowserRouter} from "react-router-dom";
-import App from "../App.tsx";
 import Landing from "../pages/Landing/landing.page.tsx";
 import Login from "../pages/Login/login.page.tsx";
 import ErrorPage from "../pages/Error/error.page.tsx";
 import Register from "../pages/Register/register.page.tsx";
 import Home from "../pages/Home/home.page.tsx";
 import NewEntry from "../pages/NewEntry/new.entry.page.tsx";
+import EntryPage from "../pages/Entry/entry.page.tsx";
 
 
 export const router = createBrowserRouter([
@@ -27,7 +27,6 @@ export const router = createBrowserRouter([
     {
         path: "/home/:welcome?",
         element: <Home />,
-        
     },
     {
         path: "*",
@@ -36,5 +35,9 @@ export const router = createBrowserRouter([
     {
         path: "/new-entry",
         element: <NewEntry />
+    },
+    {
+        path: "/entry",
+        element: <EntryPage />
     }
 ]);

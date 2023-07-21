@@ -1,0 +1,52 @@
+.entry-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    align-items: center;
+
+    .entry-container-date {
+        margin-top: 60px;
+        align-self: flex-start;
+        padding-left: 20px;
+        display: flex;
+        gap: 12px 0;
+        flex-flow: column;
+
+        .entry-container-date-day, .entry-container-date-hour {
+            font-weight: 500;
+        }
+    }
+
+    .entry-container-tags {
+        display: flex;
+        align-self: flex-start;
+        gap: 12px 12px;
+        display: flex;
+        margin: 16px;
+        .entry-container-tag {
+            display: flex;
+            gap: 0 4px;
+            background-color: rgba(232, 232, 232, 0.70);
+            padding: 4px;
+            border-radius: 25%;
+            align-items: center;
+            .entry-container-tag-text {
+                font-size: 17px;
+            }
+            
+            svg {
+                background-color: transparent;
+                color: #BDBDBD;
+            }
+        }
+    }
+
+    .entry-container-description {
+        text-align: center;
+        padding: 0 16px;
+        .entry-container-description-text {
+            font-size: 18px;
+        }
+    }
+}
