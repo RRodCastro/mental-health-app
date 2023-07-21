@@ -6,19 +6,33 @@
     flex-direction: column;
     width: 100%;
 
+    .home-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+    }
+
     .entries-container {
         margin-top: 24px;
-        display:flex;
+        display: flex;
         flex-flow: column;
         gap: 16px;
         width: 80%;
         max-width: 800px;
     }
+
     .add-entry {
-        position: absolute;
-        bottom: 25%;
-        right: 24px;
+        position: fixed;
+        margin-top: 20px;
         background-color: $main-blue;
+        top: 70%;
+        right: 25px;
+
+
+        @media (min-width: $mobile) {
+            position: absolute;
+            right: 60px;
+        }
 
         svg {
             color: white;
@@ -38,6 +52,7 @@
         justify-content: center;
         align-items: center;
         margin-top: 24px;
+
         button {
             min-width: 164px;
         }

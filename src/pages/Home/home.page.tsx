@@ -12,6 +12,7 @@ import { Box, Fab, Typography } from "@mui/material";
 import SearchComponent from "../../components/search.component";
 import JournalEntry from "../../components/journaling/journal.entry.component";
 import { Add as AddIcon } from '@mui/icons-material';
+import { useNavigate } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -44,6 +45,50 @@ const entries = [
         tags: ["anxiety", "stress", "school"]
 
 
+    },
+    {
+        key: 'entry-0',
+        date: new Date(),
+        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
+        tags: ["anxiety", "stress", "school"]
+    },
+    {
+        key: 'entry-1',
+        date: new Date(),
+        description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
+        tags: ["anxiety", "stress", "school"]
+
+
+    },
+    {
+        key: 'entry-2',
+        date: new Date(),
+        description: "Today I felt very energetic during the morning but a call with a friend made feel...",
+        tags: ["anxiety", "stress", "school"]
+
+
+    },
+    {
+        key: 'entry-0',
+        date: new Date(),
+        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
+        tags: ["anxiety", "stress", "school"]
+    },
+    {
+        key: 'entry-1',
+        date: new Date(),
+        description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
+        tags: ["anxiety", "stress", "school"]
+
+
+    },
+    {
+        key: 'entry-2',
+        date: new Date(),
+        description: "Today I felt very energetic during the morning but a call with a friend made feel...",
+        tags: ["anxiety", "stress", "school"]
+
+
     }
 ];
 
@@ -51,6 +96,7 @@ const Home = () => {
 
     const { welcome } = useParams();
     const [open, setOpen] = useState(true);
+    const navigate = useNavigate();
 
     const handleClose = () => {
         localStorage.setItem("welcomeMessage", "1");
@@ -88,6 +134,7 @@ const Home = () => {
                 Home
             </Typography>
             <SearchComponent />
+            <Box className="home-container">
             <Box className="entries-container">
                 {entries.map((entry) => {
                     return (
@@ -95,9 +142,10 @@ const Home = () => {
                     )
                 })}
             </Box>
-            <Fab className="add-entry" aria-label="add">
+            <Fab onClick={() => navigate('/new-entry')} className="add-entry" aria-label="add">
                 <AddIcon/>
             </Fab>
+            </Box>
         </Box>
     );
 }

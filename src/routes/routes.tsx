@@ -5,6 +5,7 @@ import Login from "../pages/Login/login.page.tsx";
 import ErrorPage from "../pages/Error/error.page.tsx";
 import Register from "../pages/Register/register.page.tsx";
 import Home from "../pages/Home/home.page.tsx";
+import NewEntry from "../pages/NewEntry/new.entry.page.tsx";
 
 
 export const router = createBrowserRouter([
@@ -31,5 +32,9 @@ export const router = createBrowserRouter([
     {
         path: "*",
         element: <ErrorPage />
+    },
+    {
+        path: "/new-entry",
+        element: <NewEntry />
     }
 ]);
