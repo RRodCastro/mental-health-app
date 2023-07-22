@@ -4,6 +4,7 @@ const journalingSliceName = 'journaling'
 
 const initialState = {
     selectedEntry: null,
+    selectedKeysFromCalendar: [],
 }
 
 export const journalSlice = createSlice({
@@ -15,10 +16,15 @@ export const journalSlice = createSlice({
         },
         resetSelectedEntry(state) {
             state.selectedEntry = null;
+        },
+        setSelectedKeysFromCalendar(state, action) {
+            console.log("Selecting.... ", action.payload);
+            
+            state.selectedKeysFromCalendar = action.payload;
         }
     }
 })
 
-export const { setSelectedEntry, resetSelectedEntry } = journalSlice.actions;
+export const { setSelectedEntry, resetSelectedEntry, setSelectedKeysFromCalendar } = journalSlice.actions;
 
 export default journalSlice.reducer;

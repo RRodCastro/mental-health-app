@@ -1,0 +1,28 @@
+.fc-theme-standard td, .fc-theme-standard  {
+    // border: none;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+   // border: none;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    background: #245b9e59;
+}
+.calendar-entry {
+    display: flex;
+    align-items: flex-end;
+    flex-flow: column;
+    svg, p {
+        color: $dark-blue;
+    }
+}
+
+a.fc-event, a.fc-event:hover {
+    background-color: transparent;
+    // border: none;
+}
+
+.fc-h-event {
+
+}

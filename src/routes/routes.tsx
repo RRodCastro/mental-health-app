@@ -6,6 +6,7 @@ import Register from "../pages/Register/register.page.tsx";
 import Home from "../pages/Home/home.page.tsx";
 import NewEntry from "../pages/NewEntry/new.entry.page.tsx";
 import EntryPage from "../pages/Entry/entry.page.tsx";
+import CalendarPage from "../pages/Calendar/calendar.page.tsx";
 
 
 export const router = createBrowserRouter([
@@ -39,5 +40,9 @@ export const router = createBrowserRouter([
     {
         path: "/entry",
         element: <EntryPage />
+    },
+    {
+        path: "/calendar",
+        element: <CalendarPage />
     }
 ]);
