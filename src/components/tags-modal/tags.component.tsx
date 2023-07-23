@@ -17,12 +17,13 @@ const tags = [
         title: 'Awarness',
     }
 ]
-const TagsModal = (props: { shouldDisplay: boolean, hideModal: () => void }) => {
+const TagsModal = (props: { shouldDisplay: boolean, hideModal: () => void, storeTags: (tags: string[]) => void }
+) => {
     const [open, setOpen] = useState(false);
 
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-    const handleClose = () => { props.hideModal(); setOpen(false); setSelectedTags([]); };
+    const handleClose = () => { props.hideModal(); setOpen(false); };
 
     useEffect(() => {
         if (props.shouldDisplay) {
@@ -36,6 +37,17 @@ const TagsModal = (props: { shouldDisplay: boolean, hideModal: () => void }) => 
         } else {
             setSelectedTags([...selectedTags, tag]);
         }
+    };
+
+    const getSelectedTagsTitles = () => {
+        const selected = selectedTags.map((tag) => {
+            return tags.find((item) => item.key === tag)?.title || '';
+
+        })
+        if (selected !== undefined) {
+            return selected;
+        }
+        return [''];
     };
     return (
         <div>
@@ -73,7 +85,7 @@ const TagsModal = (props: { shouldDisplay: boolean, hideModal: () => void }) => 
                                 <Button onClick={() => handleClose()} variant="contained" className="tags-modal-container-box-button-container-button">
                                     <Typography className='tags-modal-container-box-button-container-button-title'>Cancel</Typography>
                                 </Button>
-                                <Button variant="contained" className="tags-modal-container-box-button-container-button">
+                                <Button onClick={() => { props.storeTags(getSelectedTagsTitles()); handleClose() }} variant="contained" className="tags-modal-container-box-button-container-button">
                                     <Typography className='tags-modal-container-box-button-container-button-title'>Add</Typography>
                                 </Button>
                             </Box>

@@ -13,7 +13,6 @@ const EntryPage = () => {
 
 
     const journalEntry = useSelector((state: RootState) => state.journal.selectedEntry);
-
     useEffect(() => {
         if (!journalEntry) {
             setTimeout(() => navigate("/home"), 1500);

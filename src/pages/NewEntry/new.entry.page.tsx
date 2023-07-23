@@ -4,21 +4,26 @@ import { useNavigate } from "react-router-dom";
 import { LocalOfferOutlined } from '@mui/icons-material';
 import TagsModal from "../../components/tags-modal/tags.component";
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { addNewEntry } from "../../services/journaling";
 
 const NewEntry = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClick = () => {
         navigate('/home');
+        dispatch(addNewEntry({ date: new Date(), description, tags }))
     }
 
     const [tagsModalOpened, setTagsModal] = useState(false);
-
+    const [tags, setTags] = useState<string[]>([]);
+    const [description, setDescription] = useState<string>("");
 
     return (
         <Box className="new-entry">
             <BackComponent />
-            <TagsModal shouldDisplay={tagsModalOpened} hideModal={() => setTagsModal(false)} />
+            <TagsModal storeTags={(storeTags: string[]) => setTags(storeTags)} shouldDisplay={tagsModalOpened} hideModal={() => setTagsModal(false)} />
 
             <Box className="new-entry-container">
                 <Typography variant="h3">
@@ -32,6 +37,8 @@ const NewEntry = () => {
                     multiline
                     rows={20}
                     fullWidth
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                 />
                 <Fab onClick={() => setTagsModal(true)} className="add-label" aria-label="add-label">
                     <LocalOfferOutlined

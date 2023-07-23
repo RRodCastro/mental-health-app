@@ -86,10 +86,13 @@ export const journalSlice = createSlice({
         },
         setSelectedKeysFromCalendar(state, action) {
             state.selectedKeysFromCalendar = action.payload;
+        },
+        addNewEntry(state, action) {
+            state.entries.push(action.payload);
         }
     }
 })
 
-export const { setSelectedEntry, resetSelectedEntry, setSelectedKeysFromCalendar } = journalSlice.actions;
+export const { setSelectedEntry, resetSelectedEntry, setSelectedKeysFromCalendar, addNewEntry } = journalSlice.actions;
 
 export default journalSlice.reducer;
