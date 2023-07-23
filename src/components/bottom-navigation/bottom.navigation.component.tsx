@@ -1,29 +1,27 @@
-import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
-import RestoreIcon from '@mui/icons-material/Restore';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { SelfImprovement, CalendarToday, Home } from "@mui/icons-material";
 
 const BottomNavigationComponent = () => {
 
     const menuOptions = [
         {
             label: "Home",
-            icon: <RestoreIcon />,
+            icon: <Home />,
             path: "/home",
             value: 0
         },
         {
             label: "Calendar",
-            icon: <FavoriteIcon />,
+            icon: <CalendarToday />,
             path: "/calendar",
             value: 1
         },
         {
-            label: "Nearby",
-            icon: <LocationOnIcon />,
-            path: "/",
+            label: "Sessions",
+            icon: <SelfImprovement />,
+            path: "/sessions",
             value: 2
         },
     ]

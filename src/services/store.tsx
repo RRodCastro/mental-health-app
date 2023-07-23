@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./counter";
 import journalingReducer from "./journaling";
+import sessionReducer from "./sessions";
 
 import authSlice from "./auth";
 
@@ -12,6 +13,7 @@ export const store = configureStore({
   reducer: {
     counter: counterReducer,
     journal: journalingReducer, 
+    session: sessionReducer,
     [authSlice.reducerPath]: authSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

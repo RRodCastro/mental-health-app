@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Landing from "../pages/Landing/landing.page.tsx";
 import Login from "../pages/Login/login.page.tsx";
 import ErrorPage from "../pages/Error/error.page.tsx";
@@ -9,8 +9,9 @@ import EntryPage from "../pages/Entry/entry.page.tsx";
 import CalendarPage from "../pages/Calendar/calendar.page.tsx";
 import BottomNavigationComponent from "../components/bottom-navigation/bottom.navigation.component.tsx";
 import { Outlet } from "react-router-dom";
+import Sessions from "../pages/Sessions/sessions.page.tsx";
 
-const Layout = () => (<> <Outlet/> <BottomNavigationComponent /> </>)
+const Layout = () => (<> <Outlet /> <BottomNavigationComponent /> </>)
 export const router = createBrowserRouter([
     {
         element: <Layout />,
@@ -18,17 +19,17 @@ export const router = createBrowserRouter([
             {
                 path: "/",
                 element: <Landing />,
-                
+
             },
             {
                 path: "/login",
                 element: <Login />,
-                
+
             },
             {
                 path: "/register",
                 element: <Register />,
-                
+
             },
             {
                 path: "/home/:welcome?",
@@ -49,9 +50,13 @@ export const router = createBrowserRouter([
             {
                 path: "/calendar",
                 element: <CalendarPage />
+            },
+            {
+                path: "/sessions",
+                element: <Sessions />
             }
         ]
     },
 
-    
+
 ]);

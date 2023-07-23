@@ -67,7 +67,7 @@ const Home = () => {
 
     return (
         <Box className="home">
-            <Typography variant="h2">
+            <Typography style={{marginTop: '24px'}} variant="h2">
                 Home
             </Typography>
             <SearchComponent />
