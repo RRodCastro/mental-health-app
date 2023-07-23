@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { JournalingStateInterface } from './interfaces/journaling.interface';
+import { DateTime } from 'luxon'
 
 const journalingSliceName = 'journaling'
+const yesterday = (DateTime.local().minus({ days: 1 }).toJSDate());
+const pastDay = (DateTime.local().minus({ days: 3 })).toJSDate();
+const today = (DateTime.now().toJSDate());
 
 const initialState: JournalingStateInterface = {
     selectedEntry: null,
@@ -9,13 +13,13 @@ const initialState: JournalingStateInterface = {
     entries: [
         {
             key: 'entry-0',
-            date: new Date(),
+            date: pastDay,
             description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
             tags: ["anxiety", "stress", "school"]
         },
         {
             key: 'entry-1',
-            date: new Date(),
+            date: pastDay,
             description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
             tags: ["anxiety", "stress", "school"]
 
@@ -23,7 +27,7 @@ const initialState: JournalingStateInterface = {
         },
         {
             key: 'entry-2',
-            date: new Date(),
+            date: pastDay,
             description: "Today I felt very energetic during the morning but a call with a friend made feel...",
             tags: ["anxiety", "stress", "school"]
 
@@ -31,13 +35,13 @@ const initialState: JournalingStateInterface = {
         },
         {
             key: 'entry-3',
-            date: new Date(),
+            date: yesterday,
             description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
             tags: ["anxiety", "stress", "school"]
         },
         {
             key: 'entry-4',
-            date: new Date(),
+            date: yesterday,
             description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
             tags: ["anxiety", "stress", "school"]
 
@@ -45,7 +49,7 @@ const initialState: JournalingStateInterface = {
         },
         {
             key: 'entry-5',
-            date: new Date(),
+            date: yesterday,
             description: "Today I felt very energetic during the morning but a call with a friend made feel...",
             tags: ["anxiety", "stress", "school"]
 
@@ -53,13 +57,13 @@ const initialState: JournalingStateInterface = {
         },
         {
             key: 'entry-6',
-            date: new Date(),
+            date: today,
             description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
             tags: ["anxiety", "stress", "school"]
         },
         {
             key: 'entry-7',
-            date: new Date(),
+            date: today,
             description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
             tags: ["anxiety", "stress", "school"]
 
@@ -67,7 +71,7 @@ const initialState: JournalingStateInterface = {
         },
         {
             key: 'entry-8',
-            date: new Date(),
+            date: today,
             description: "Today I felt very energetic during the morning but a call with a friend made feel...",
             tags: ["anxiety", "stress", "school"]
         }
@@ -88,7 +92,8 @@ export const journalSlice = createSlice({
             state.selectedKeysFromCalendar = action.payload;
         },
         addNewEntry(state, action) {
-            state.entries.push(action.payload);
+            const maxKey = Math.max(...state.entries.map((entry) => parseInt(entry.key.replace("entry-", ""))));
+            state.entries.push({...action.payload, key: 'entry-' + (maxKey + 1)});
         }
     }
 })

@@ -7,42 +7,51 @@ import Home from "../pages/Home/home.page.tsx";
 import NewEntry from "../pages/NewEntry/new.entry.page.tsx";
 import EntryPage from "../pages/Entry/entry.page.tsx";
 import CalendarPage from "../pages/Calendar/calendar.page.tsx";
+import BottomNavigationComponent from "../components/bottom-navigation/bottom.navigation.component.tsx";
+import { Outlet } from "react-router-dom";
 
-
+const Layout = () => (<> <Outlet/> <BottomNavigationComponent /> </>)
 export const router = createBrowserRouter([
     {
-        path: "/",
-        element: <Landing />,
-        
+        element: <Layout />,
+        children: [
+            {
+                path: "/",
+                element: <Landing />,
+                
+            },
+            {
+                path: "/login",
+                element: <Login />,
+                
+            },
+            {
+                path: "/register",
+                element: <Register />,
+                
+            },
+            {
+                path: "/home/:welcome?",
+                element: <Home />,
+            },
+            {
+                path: "*",
+                element: <ErrorPage />
+            },
+            {
+                path: "/new-entry",
+                element: <NewEntry />
+            },
+            {
+                path: "/entry",
+                element: <EntryPage />
+            },
+            {
+                path: "/calendar",
+                element: <CalendarPage />
+            }
+        ]
     },
-    {
-        path: "/login",
-        element: <Login />,
-        
-    },
-    {
-        path: "/register",
-        element: <Register />,
-        
-    },
-    {
-        path: "/home/:welcome?",
-        element: <Home />,
-    },
-    {
-        path: "*",
-        element: <ErrorPage />
-    },
-    {
-        path: "/new-entry",
-        element: <NewEntry />
-    },
-    {
-        path: "/entry",
-        element: <EntryPage />
-    },
-    {
-        path: "/calendar",
-        element: <CalendarPage />
-    }
+
+    
 ]);

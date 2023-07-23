@@ -1,7 +1,6 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import { Box, Typography } from '@mui/material'
-import { DateTime } from 'luxon'
 import { FiberManualRecord, LocalOffer } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedEntry, setSelectedKeysFromCalendar } from '../../services/journaling';
@@ -9,50 +8,17 @@ import BackComponent from '../../components/back/back.component';
 import { useNavigate } from "react-router-dom";
 import { RootState } from '../../services/store';
 import { JournalEntry } from '../../services/interfaces/journaling.interface';
+import { EventContentArg } from '@fullcalendar/core/index.js';
 
-const yesterday = DateTime.local().minus({ days: 1 });
-const pastDay = DateTime.local().minus({ days: 3 });
 
-const events = [
-    {
-        key: 'entry-0',
-        date: new Date(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-    {
-        key: 'entry-1',
-        date: yesterday.toJSDate(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-    {
-        key: 'entry-2',
-        date: pastDay.toJSDate(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-    {
-        key: 'entry-3',
-        date: pastDay.toJSDate(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-    {
-        key: 'entry-4',
-        date: new Date(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-]
 
 // Transoform the events to group them by date
-function groupEventsByDate(events: JournalEntry[]) {
-    const groupedEvents = events.reduce((accumulator, event) => {
+const groupEventsByDate = (journalEntry: JournalEntry[]) => {
+    const groupedEntries = journalEntry.reduce((accumulator, event) => {
         const eventDate = event.date.toISOString().slice(0, 10);
 
         const existingDateIndex = accumulator.findIndex(
-            (group) => group && group.date === eventDate
+            (group) => group && group['date'] === eventDate
         );
 
         if (existingDateIndex !== -1) {
@@ -64,15 +30,16 @@ function groupEventsByDate(events: JournalEntry[]) {
         return accumulator;
     }, []);
 
-    return groupedEvents;
+    return groupedEntries;
 }
 
 const CalendarPage = () => {
     const dispatch = useDispatch();
     const selectedKeysFromCalendar = useSelector((state: RootState) => state.journal.selectedKeysFromCalendar);
     const navigate = useNavigate();
+    const entries = useSelector((state: RootState) => state.journal.entries);
 
-    const renderEventContent = (eventInfo: any) => {
+    const renderEventContent = (eventInfo: EventContentArg) => {
 
         return (
             <Box className="calendar-entry">
@@ -92,7 +59,7 @@ const CalendarPage = () => {
                 plugins={[dayGridPlugin]}
                 initialView='dayGridMonth'
                 weekends={true}
-                events={groupEventsByDate(events)}
+                events={groupEventsByDate(entries)}
                 eventContent={renderEventContent}
                 height={"auto"}
                 headerToolbar={
@@ -113,16 +80,16 @@ const CalendarPage = () => {
                 <Box className="calendar-entry-info-container">
                     {
                         // From the first selected key, find the event and display the info of the date
-                        events.find((event) => event.key === selectedKeysFromCalendar[0]) &&
+                        entries.find((journalEntry: JournalEntry) => journalEntry.key === selectedKeysFromCalendar[0]) &&
                         <Box className="calendar-entry-info-date">
                             <Typography>
-                                {events.find((event) => event.key === selectedKeysFromCalendar[0]).date.toDateString()}
+                                { entries.find((event) => event.key === selectedKeysFromCalendar[0]).date.toDateString()}
                             </Typography>
                         </Box>
                     }
                     {
                         selectedKeysFromCalendar.map((key) => {
-                            const entry = events.find((event) => event.key === key);
+                            const entry = entries.find((event) => event.key === key);
                             return (
                                 <Box
                                     onClick={() => {
@@ -139,7 +106,7 @@ const CalendarPage = () => {
 
                                     <Box className="calendar-entry-tags">
                                         {
-                                            entry.tags.map((tag) => {
+                                            entry && entry.tags.map((tag) => {
                                                 return (
                                                     <Box key={entry.key + tag} className="calendar-entry-tags-tag">
                                                         <LocalOffer />
