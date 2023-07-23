@@ -6,7 +6,7 @@ const BackComponent = () => {
     const navigate = useNavigate();
 
     return (
-        <Box className="back-button" onClick={() =>  navigate(-1)}>
+        <Box className="back-button" onClick={() => navigate(-1)}>
             <Typography>
                 Back
             </Typography>

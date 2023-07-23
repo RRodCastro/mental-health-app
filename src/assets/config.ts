@@ -1,8 +1,8 @@
-import mainLogo from 'mental-health-logo.png';
+import mentalHealthLogo from './mental-health-logo.png';
 
 
 const assetsConfig = {
-    mainLogo
+    mentalHealthLogo
 }
 
 export default assetsConfig;

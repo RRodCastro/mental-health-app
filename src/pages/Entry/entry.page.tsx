@@ -2,43 +2,34 @@ import { Box, Typography } from "@mui/material";
 import BackComponent from "../../components/back/back.component";
 import { LocalOffer } from "@mui/icons-material";
 import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { RootState } from "../../services/store";
 
 const EntryPage = () => {
-    const entry = {
-        key: 'entry-0',
-        date: new Date(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    };
 
     const navigate = useNavigate();
     const location = useLocation()
 
-    
-    const journalEntry = useSelector(state => state.journal.selectedEntry);
 
-    useEffect( () => {
+    const journalEntry = useSelector((state: RootState) => state.journal.selectedEntry);
+
+    useEffect(() => {
         if (!journalEntry) {
             setTimeout(() => navigate("/home"), 1500);
         }
-    } , []);
+    }, []);
 
     useEffect(() => {
         console.log(location.pathname);
     }, [location]);
 
-
-
-
     if (!journalEntry) {
         return (
             <Box className="entry-container">
-                            <BackComponent />
+                <BackComponent />
 
-                <Typography style={{textAlign: 'center', marginTop: '60px'}} variant="h5">
+                <Typography style={{ textAlign: 'center', marginTop: '60px' }} variant="h5">
                     Please select a journal entry
                 </Typography>
             </Box>
@@ -50,21 +41,21 @@ const EntryPage = () => {
             <BackComponent />
 
             <Box className="entry-container-date">
-                <Typography 
-                variant="h5" className="entry-container-date-day">
-                    {entry.date.toDateString()}
+                <Typography
+                    variant="h5" className="entry-container-date-day">
+                    {journalEntry.date.toDateString()}
                 </Typography>
                 <Typography className="entry-container-date-hour">
-                    {entry.date.toDateString()}
+                    {journalEntry.date.toDateString()}
                 </Typography>
             </Box>
 
 
             <Box className="entry-container-tags">
                 {
-                    entry.tags.map((tag) => {
+                    journalEntry.tags.map((tag) => {
                         return (
-                            <Box key={entry.key + tag} className="entry-container-tag">
+                            <Box key={journalEntry.key + tag} className="entry-container-tag">
                                 <LocalOffer />
                                 <Typography className="entry-container-tag-text">
                                     {tag}
@@ -76,7 +67,7 @@ const EntryPage = () => {
             </Box>
             <Box className="entry-container-description">
                 <Typography className="entry-container-description-text">
-                    {entry.description}
+                    {journalEntry.description}
                 </Typography>
             </Box>
         </Box>

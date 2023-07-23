@@ -29,7 +29,6 @@ const NewEntry = () => {
                     id="new-entry-text-field"
                     label="New Entry"
                     placeholder="Start asking yourself these questions: How did today's experiences make you feel? What were the highlights or challenges of your day? What lessons or insights did you gain from today?"
-
                     multiline
                     rows={20}
                     fullWidth

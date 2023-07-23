@@ -1,4 +1,4 @@
-.journal-entry{
+.journal-entry {
     padding-bottom: 10px;
     border-bottom: 1px solid #E8E8E8;
     cursor: pointer;
@@ -6,12 +6,13 @@
     .journal-entry-date {
         display: flex;
         justify-content: space-between;
-        
-        &:last-child{
+
+        &:last-child {
             opacity: 0.7;
         }
     }
-    .journal-entry-date:last-child{
+
+    .journal-entry-date:last-child {
         opacity: 0.7;
     }
 }

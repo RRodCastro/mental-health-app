@@ -3,13 +3,14 @@ import { Button, Typography } from '@mui/material'
 import { increment} from "./services/counter.tsx";;
 import { useDispatch, useSelector } from 'react-redux'
 import { useLazyLoginQuery } from './services/auth.tsx';
+import { RootState } from './services/store.tsx';
 
 
 const App = () => {
   const dispatch = useDispatch();
   const [ trigger, { data } ] = useLazyLoginQuery();
 
-  const counterValue: number = useSelector(state => state.counter.value);
+  const counterValue: number = useSelector((state: RootState) => state.counter.value);
 
   return (
     <>

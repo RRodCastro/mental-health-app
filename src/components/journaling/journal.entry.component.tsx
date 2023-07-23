@@ -6,18 +6,18 @@ export interface JournalEntry {
     tags: String[],
 }
 
-const JournalEntry = ({data, handleEntryClick} : {data: JournalEntry, handleEntryClick: (data: JournalEntry) => void}) => {
+const JournalEntry = ({ data, handleEntryClick }: { data: JournalEntry, handleEntryClick: (data: JournalEntry) => void }) => {
     return (
         <Box
-         onClick={() => handleEntryClick(data)}
-         className="journal-entry">
+            onClick={() => handleEntryClick(data)}
+            className="journal-entry">
             <Box className="journal-entry-date">
-            <Typography fontWeight="600">
-                18:42
-            </Typography>
-            <Typography style={{opacity: 0.7}}>
-                April 30, 2023
-            </Typography>
+                <Typography fontWeight="600">
+                    18:42
+                </Typography>
+                <Typography style={{ opacity: 0.7 }}>
+                    April 30, 2023
+                </Typography>
             </Box>
             <Typography>
                 {data.description}

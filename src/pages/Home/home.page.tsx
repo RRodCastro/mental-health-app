@@ -14,8 +14,8 @@ import JournalEntry from "../../components/journaling/journal.entry.component";
 import { Add as AddIcon } from '@mui/icons-material';
 import { useNavigate } from "react-router-dom";
 import { setSelectedEntry } from "../../services/journaling";
-import { useDispatch } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from "../../services/store";
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: ReactElement<any, any>;
@@ -25,82 +25,15 @@ const Transition = forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const entries = [
-    {
-        key: 'entry-0',
-        date: new Date(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-    {
-        key: 'entry-1',
-        date: new Date(),
-        description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
-        tags: ["anxiety", "stress", "school"]
-
-
-    },
-    {
-        key: 'entry-2',
-        date: new Date(),
-        description: "Today I felt very energetic during the morning but a call with a friend made feel...",
-        tags: ["anxiety", "stress", "school"]
-
-
-    },
-    {
-        key: 'entry-3',
-        date: new Date(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-    {
-        key: 'entry-4',
-        date: new Date(),
-        description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
-        tags: ["anxiety", "stress", "school"]
-
-
-    },
-    {
-        key: 'entry-5',
-        date: new Date(),
-        description: "Today I felt very energetic during the morning but a call with a friend made feel...",
-        tags: ["anxiety", "stress", "school"]
-
-
-    },
-    {
-        key: 'entry-6',
-        date: new Date(),
-        description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-        tags: ["anxiety", "stress", "school"]
-    },
-    {
-        key: 'entry-7',
-        date: new Date(),
-        description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
-        tags: ["anxiety", "stress", "school"]
-
-
-    },
-    {
-        key: 'entry-8',
-        date: new Date(),
-        description: "Today I felt very energetic during the morning but a call with a friend made feel...",
-        tags: ["anxiety", "stress", "school"]
-
-
-    }
-];
-
 const Home = () => {
 
     const { welcome } = useParams();
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
+
+    const entries = useSelector((state: RootState) => state.journal.entries);
+
 
     const handleClose = () => {
         localStorage.setItem("welcomeMessage", "1");

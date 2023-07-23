@@ -30,7 +30,6 @@ const TagsModal = (props: { shouldDisplay: boolean, hideModal: () => void }) => 
         }
     }, [props.shouldDisplay]);
 
-    //Handle tag selection
     const handleTagSelection = (tag: string) => {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter((item) => item !== tag));
@@ -71,10 +70,10 @@ const TagsModal = (props: { shouldDisplay: boolean, hideModal: () => void }) => 
                                 }
                             </Box>
                             <Box className="tags-modal-container-box-button-container">
-                                <Button onClick={ () => handleClose()} variant="contained" className="tags-modal-container-box-button-container-button">
+                                <Button onClick={() => handleClose()} variant="contained" className="tags-modal-container-box-button-container-button">
                                     <Typography className='tags-modal-container-box-button-container-button-title'>Cancel</Typography>
                                 </Button>
-                                <Button  variant="contained" className="tags-modal-container-box-button-container-button">
+                                <Button variant="contained" className="tags-modal-container-box-button-container-button">
                                     <Typography className='tags-modal-container-box-button-container-button-title'>Add</Typography>
                                 </Button>
                             </Box>
