@@ -19,7 +19,7 @@ const JournalEntry = ({ data, handleEntryClick }: { data: JournalEntry, handleEn
                     April 30, 2023
                 </Typography>
             </Box>
-            <Typography>
+            <Typography style={{textAlign: 'initial'}}>
                 {data.description}
             </Typography>
         </Box>

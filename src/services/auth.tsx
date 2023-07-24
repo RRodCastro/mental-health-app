@@ -1,29 +1,20 @@
-import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import { createSlice } from "@reduxjs/toolkit";
 
-const authSlice = createApi({
-    reducerPath: "auth",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${''}https://jsonplaceholder.typicode.com`,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
+const authingSliceName = 'auth'
+const initialState: { token: string } = {
+    token: '',
+}
+export const authSlice = createSlice({
+    name: authingSliceName,
+    initialState,
+    reducers: {
+        setToken: (state, action) => {
+            state.token = action.payload;
+        },
+        resetToken: (state) => {
+            state.token = initialState.token;
         }
-    }),
-    endpoints: (builder) => ({
-        login: builder.query({
-            query: () => ({
-                url: "/posts",
-                method: 'GET',
-            }),
-            transformResponse: (data) => {
-                console.log("from transform" , data);
-                return data;
-            }
-        })
-    })
-});
-
-
-export const {useLoginQuery, useLazyLoginQuery} = authSlice;
-export default authSlice;
-
-
+    }
+})
+export const { setToken, resetToken } = authSlice.actions;
+export default authSlice.reducer;

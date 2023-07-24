@@ -16,6 +16,9 @@ import { useNavigate } from "react-router-dom";
 import { setSelectedEntry } from "../../services/journaling";
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "../../services/store";
+import { useLoginQuery } from '../../services/auth.api.tsx';
+
+
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
         children: ReactElement<any, any>;
@@ -26,7 +29,11 @@ const Transition = forwardRef(function Transition(
 });
 
 const Home = () => {
-
+    const {
+        data,
+        isFetching,
+        isLoading,
+      } = useLoginQuery('')
     const { welcome } = useParams();
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();

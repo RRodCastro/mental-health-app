@@ -37,6 +37,9 @@ const BottomNavigationComponent = () => {
 
     }, [location]);
 
+    if (location.pathname === "/login" || location.pathname === "/register") {
+        return null;
+    }
     return (
         <BottomNavigation
             showLabels

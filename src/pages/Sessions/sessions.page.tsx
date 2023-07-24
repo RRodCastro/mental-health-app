@@ -7,7 +7,7 @@ import { RootState } from "../../services/store";
 const Sessions = () => {
 
     const mindfullnessSessions = useSelector((state: RootState) => state.session.sessions);
-    
+
     return (
         <Box className="sessions">
             <BackComponent />

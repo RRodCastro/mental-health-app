@@ -1,16 +1,25 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useLazyLoginQuery } from "../../services/auth.api";
+import { useDispatch } from "react-redux";
+import { setToken } from "../../services/auth";
 
 const Login = () => {
     const navigate = useNavigate();
+    const [ triggerLogin, { data, isLoading } ] = useLazyLoginQuery();
+    const dispatch = useDispatch();
 
-    const handleLogin = () => {
-        // TODO: Implement login logic
+    const handleLogin = async () => {
+        await triggerLogin('');
+        dispatch(setToken("Test"));
         if (localStorage.getItem("welcomeMessage") === null) {
             navigate("/home/welcome");
         } else {
             navigate("/home");
         }
+    }
+    if (isLoading) {
+        return <CircularProgress size={60} />
     }
     return(
         <Box className="login-page">
