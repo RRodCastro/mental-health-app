@@ -7,7 +7,7 @@ import { setSelectedEntry, setSelectedKeysFromCalendar } from '../../services/jo
 import BackComponent from '../../components/back/back.component';
 import { useNavigate } from "react-router-dom";
 import { RootState } from '../../services/store';
-import { JournalEntry } from '../../services/interfaces/journaling.interface';
+import { JournalEntry, emotionIcons } from '../../services/interfaces/journaling.interface';
 import { EventContentArg } from '@fullcalendar/core/index.js';
 
 
@@ -23,8 +23,10 @@ const groupEventsByDate = (journalEntry: JournalEntry[]) => {
 
         if (existingDateIndex !== -1) {
             accumulator[existingDateIndex].keys.push(event.key);
+            accumulator[existingDateIndex].emotion.push(event.mood);
+
         } else {
-            accumulator.push({ date: eventDate, keys: [event.key] });
+            accumulator.push({ date: eventDate, keys: [event.key], emotion: [event.mood] });
         }
 
         return accumulator;
@@ -33,6 +35,17 @@ const groupEventsByDate = (journalEntry: JournalEntry[]) => {
     return groupedEntries;
 }
 
+const calculateAverageEmotion = (emotions: number[]): number => {
+    // Check if the emotions array is not empty
+    if (emotions.length === 0) {
+      return 3;
+    }
+      const sum = emotions.reduce((acc, emotion) => acc + emotion, 0);
+  
+    const averageEmotion = sum / emotions.length;
+  
+    return Math.round(averageEmotion);
+  }
 const CalendarPage = () => {
     const dispatch = useDispatch();
     const selectedKeysFromCalendar = useSelector((state: RootState) => state.journal.selectedKeysFromCalendar);
@@ -40,17 +53,18 @@ const CalendarPage = () => {
     const entries = useSelector((state: RootState) => state.journal.entries);
 
     const renderEventContent = (eventInfo: EventContentArg) => {
+        // Get the average emotion
+        const average = calculateAverageEmotion(eventInfo.event.extendedProps.emotion);
 
         return (
             <Box className="calendar-entry">
-                <FiberManualRecord />
+                {emotionIcons[average] ? emotionIcons[average].icon : null }
                 <Typography>
                     + {eventInfo.event.extendedProps.keys.length}
                 </Typography>
             </Box>
         )
     }
-
     return (
         <Box className="calendar-container">
             <BackComponent />
@@ -69,11 +83,12 @@ const CalendarPage = () => {
                         end: 'prev,next',
                     }
                 }
-
                 eventClick={(eventInfo) => {
                     dispatch(setSelectedKeysFromCalendar(eventInfo.event.extendedProps.keys));
 
                 }}
+                
+                /* dayHeaders={false} */
             />
             </Box>
             {selectedKeysFromCalendar && selectedKeysFromCalendar.length > 0 &&
@@ -98,7 +113,8 @@ const CalendarPage = () => {
                                     }}
                                     key={key} className="calendar-entry-info">
                                     <Box className="calendar-entry-info-header">
-                                        <FiberManualRecord />
+                                        {emotionIcons[entry.mood] ? emotionIcons[entry.mood].icon : null }
+
                                         <Typography className="calendar-entry-info-text">
                                             {entry.description}
                                         </Typography>
@@ -106,7 +122,7 @@ const CalendarPage = () => {
 
                                     <Box className="calendar-entry-tags">
                                         {
-                                            entry && entry.tags.map((tag) => {
+                                            entry && entry.tags && (entry.tags || []).map((tag) => {
                                                 return (
                                                     <Box key={entry.key + tag} className="calendar-entry-tags-tag">
                                                         <LocalOffer />

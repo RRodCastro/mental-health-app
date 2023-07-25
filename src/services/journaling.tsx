@@ -15,21 +15,23 @@ const initialState: JournalingStateInterface = {
             key: 'entry-0',
             date: pastDay,
             description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-            tags: ["anxiety", "stress", "school"]
+            mood: 1,
         },
         {
             key: 'entry-1',
             date: pastDay,
             description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
-            tags: ["anxiety", "stress", "school"]
-
+            tags: ["anxiety", "stress", "school"],
+            mood: 1,
 
         },
         {
             key: 'entry-2',
             date: pastDay,
             description: "Today I felt very energetic during the morning but a call with a friend made feel...",
-            tags: ["anxiety", "stress", "school"]
+            tags: ["anxiety", "stress", "school"],
+            mood: 1,
+
 
 
         },
@@ -37,13 +39,16 @@ const initialState: JournalingStateInterface = {
             key: 'entry-3',
             date: yesterday,
             description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-            tags: ["anxiety", "stress", "school"]
+            tags: ["anxiety", "stress", "school"],
+            mood: 2,
+
         },
         {
             key: 'entry-4',
             date: yesterday,
             description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
-            tags: ["anxiety", "stress", "school"]
+            tags: ["anxiety", "stress", "school"],
+            mood: 2,
 
 
         },
@@ -51,7 +56,8 @@ const initialState: JournalingStateInterface = {
             key: 'entry-5',
             date: yesterday,
             description: "Today I felt very energetic during the morning but a call with a friend made feel...",
-            tags: ["anxiety", "stress", "school"]
+            tags: ["anxiety", "stress", "school"],
+            mood: 3,
 
 
         },
@@ -59,13 +65,15 @@ const initialState: JournalingStateInterface = {
             key: 'entry-6',
             date: today,
             description: "I can't believe how quickly this semester has flown by. I'm already starting to feel anxious about the upcoming exams",
-            tags: ["anxiety", "stress", "school"]
+            tags: ["anxiety", "stress", "school"],
+            mood: 4,
         },
         {
             key: 'entry-7',
             date: today,
             description: "I had a rush morning but after walking in the nature I felt more calmed during the day which",
-            tags: ["anxiety", "stress", "school"]
+            tags: ["anxiety", "stress", "school"],
+            mood: 4,
 
 
         },
@@ -73,7 +81,8 @@ const initialState: JournalingStateInterface = {
             key: 'entry-8',
             date: today,
             description: "Today I felt very energetic during the morning but a call with a friend made feel...",
-            tags: ["anxiety", "stress", "school"]
+            tags: ["anxiety", "stress", "school"],
+            mood: 5,
         }
     ]
 }

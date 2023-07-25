@@ -8,7 +8,9 @@
 
     .calendar-container-full-calendar {
 
-
+        .fc-theme-standard td, .fc-theme-standard th {
+            border: none;
+        }
         .fc-theme-standard td,
         .fc-theme-standard {
             border: none;
@@ -39,12 +41,11 @@
 
             p {
                 font-size: 14px;
+                color: $dark-blue;
+
             }
 
-            svg,
-            p {
-                color: $dark-blue;
-            }
+
         }
 
         a.fc-event {
@@ -81,10 +82,8 @@
                 display: flex;
                 flex-flow: row;
                 gap: 4px;
+                text-align: start;
 
-                svg {
-                    color: $main-blue;
-                }
 
                 .calendar-entry-info-text {
                     width: 100%;

@@ -5,4 +5,9 @@
     width: 100%;
     background-color: #ffffff;
     min-height: 56px;
+
+
+    .css-1bjk3jo-MuiButtonBase-root-MuiBottomNavigationAction-root.Mui-selected {
+        color: $main-blue;
+    }
 }

@@ -16,12 +16,34 @@
 
 
         .new-entry-text-field {
-            margin: 60px 0;
+            margin: 28px 0 60px 0;
+
+            @media (min-width: $mobile) {
+                margin: 60px 0;
+            }
+
         }
 
         .new-entry-button {
             width: calc(100% - 32px);
             background-color: $main-blue !important;
+        }
+
+        .emotions-container {
+            position: absolute;
+            top: calc(100% - 80px);
+            left: 15px;
+            
+            .MuiRating-sizeLarge {
+                svg {
+                    font-size: 28px;
+                }
+            }
+
+            @media (min-width: $mobile) {
+                left: 50%;
+                right: 0
+            }
         }
 
         .add-label {

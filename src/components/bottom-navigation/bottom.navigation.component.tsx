@@ -1,9 +1,12 @@
 import { BottomNavigation, BottomNavigationAction } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { SelfImprovement, CalendarToday, Home } from "@mui/icons-material";
+import { SelfImprovement, CalendarToday, Home, Person } from "@mui/icons-material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../services/store";
 
 const BottomNavigationComponent = () => {
+    const isAuth = useSelector((state: RootState) => state.auth.token);
 
     const menuOptions = [
         {
@@ -24,15 +27,29 @@ const BottomNavigationComponent = () => {
             path: "/sessions",
             value: 2
         },
+        {
+            label: "Profile",
+            icon: <Person />,
+            path: "/profile",
+            value: 3,
+        }
     ]
     const [value, setValue] = useState(0);
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
+
+
 
     useEffect(() => {
         const index = menuOptions.findIndex((option) => option.path === location.pathname);
         if (index !== -1) {
             setValue(index);
+        }
+
+        if (isAuth) {
+            if (location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/") {
+                setTimeout(() => navigate('/home'), 0);
+            }
         }
 
     }, [location]);

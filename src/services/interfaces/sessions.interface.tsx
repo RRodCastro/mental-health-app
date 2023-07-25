@@ -10,3 +10,10 @@ export interface Session {
 export interface SessionStateInterface { 
     sessions: Session[];
 }
+
+export enum AvaiableColors {
+    GREEN,
+    YELLOW,
+    ORANGE,
+    RED
+}

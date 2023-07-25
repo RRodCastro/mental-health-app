@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { RootState } from "../../services/store";
+import { emotionIcons } from "../../services/interfaces/journaling.interface";
 
 const EntryPage = () => {
 
@@ -44,15 +45,19 @@ const EntryPage = () => {
                     variant="h5" className="entry-container-date-day">
                     {journalEntry.date.toDateString()}
                 </Typography>
+                <Box className="entry-container-emotion">
+                {emotionIcons[journalEntry.mood] ? emotionIcons[journalEntry.mood].icon : null }
+
                 <Typography className="entry-container-date-hour">
                     {journalEntry.date.toDateString()}
                 </Typography>
+                </Box>
             </Box>
 
 
-            <Box className="entry-container-tags">
+            {<Box className="entry-container-tags">
                 {
-                    journalEntry.tags.map((tag) => {
+                    (journalEntry.tags || []).map((tag) => {
                         return (
                             <Box key={journalEntry.key + tag} className="entry-container-tag">
                                 <LocalOffer />
@@ -63,7 +68,7 @@ const EntryPage = () => {
                         )
                     })
                 }
-            </Box>
+            </Box>}
             <Box className="entry-container-description">
                 <Typography className="entry-container-description-text">
                     {journalEntry.description}
