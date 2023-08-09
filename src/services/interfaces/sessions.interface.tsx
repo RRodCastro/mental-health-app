@@ -9,6 +9,7 @@ export interface Session {
 
 export interface SessionStateInterface { 
     sessions: Session[];
+    selectedSession: Session | null;
 }
 
 export enum AvaiableColors {

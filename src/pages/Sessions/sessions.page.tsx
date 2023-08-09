@@ -2,11 +2,15 @@ import { Box, Typography } from "@mui/material";
 import SearchComponent from "../../components/search.component";
 import BackComponent from "../../components/back/back.component";
 import { Session } from "../../services/interfaces/sessions.interface";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../services/store";
+import { setSelectedSession } from "../../services/sessions";
+import { useNavigate } from "react-router-dom";
 const Sessions = () => {
 
     const mindfullnessSessions = useSelector((state: RootState) => state.session.sessions);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     return (
         <Box className="sessions">
@@ -20,7 +24,12 @@ const Sessions = () => {
                 {
                     mindfullnessSessions.map((session: Session) => {
                         return (
-                            <Box key={session.key} className="session-item">
+                            <Box
+                                onClick={() => {                                         dispatch(setSelectedSession(session));
+                                    navigate(`/session/${session.key}`);
+
+                                }}
+                                key={session.key} className="session-item">
 
                                 <Typography className="session-item-title" variant="h5">{session.title}</Typography>
                                 <Box

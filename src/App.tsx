@@ -16,6 +16,7 @@ import Sessions from "./pages/Sessions/sessions.page.tsx";
 import { ProtectedRoute } from "./components/protected.layout.tsx";
 import { useEffect } from 'react';
 import { setToken } from './services/auth.tsx';
+import SessionPage from './pages/Session/session.page.tsx';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -73,6 +74,10 @@ const App = () => {
           {
             path: "/sessions",
             element: <Sessions />
+          },
+          {
+            path: "/session/:id",
+            element: <SessionPage />
           }
         ]
       },

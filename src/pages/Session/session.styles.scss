@@ -1,0 +1,27 @@
+.session-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    align-items: center;
+    margin-bottom: 120px;
+    .session-item-image {
+        min-width: 314px;
+        min-height: 153px;
+        width: 350px;
+        height: 350px;
+        align-self: center;
+        object-fit: cover;
+        border-radius: 20px;
+        margin: 48px 0;
+    }
+
+    .session-button {
+        min-width: 311px;
+        min-height: 51px;
+        text-transform: capitalize;
+        font-size: 18px;
+        border-radius: 25px;
+    }
+
+}
