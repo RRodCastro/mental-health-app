@@ -24,11 +24,12 @@ const App = () => {
   const isAuth = useSelector((state: RootState) => state.auth.token);
 
   useEffect(() => {
-    const token = localStorage.getItem("o0213saWmFO^");
+    const token = localStorage.getItem("token");
     if (token) {
       dispatch(setToken(token));
     }
   }, []);
+  
 
   const Layout = () => (<> <Outlet />  <ProtectedRoute> <BottomNavigationComponent /> </ProtectedRoute> </>)
   const router = createBrowserRouter(

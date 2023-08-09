@@ -29,11 +29,6 @@ const Transition = forwardRef(function Transition(
 });
 
 const Home = () => {
-    const {
-        data,
-        isFetching,
-        isLoading,
-      } = useLoginQuery('')
     const { welcome } = useParams();
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();

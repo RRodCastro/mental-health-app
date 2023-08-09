@@ -38,7 +38,7 @@ const ProfilePage = () => {
                 Profile
             </Typography>
             <Box className="logout-button" onClick={() => {
-                localStorage.removeItem("o0213saWmFO^");
+                localStorage.removeItem("token");
                 window.location.href = "/login";
             }}>
                 <Typography>
