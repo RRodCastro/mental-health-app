@@ -1,11 +1,11 @@
 import { Alert, Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
 import { useLazyRegisterQuery } from "../../services/auth.api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setToken } from "../../services/auth";
+import { emailRegex } from '../../utils/utils';
 
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const Register = () => {
     const [triggerRegister, { isLoading, isError, error }] = useLazyRegisterQuery();
