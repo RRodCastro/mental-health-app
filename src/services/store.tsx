@@ -4,10 +4,11 @@ import journalingReducer from "./journaling";
 import sessionReducer from "./sessions";
 import authReducer from './auth';
 
-import authSlice from "./auth.api";
+import {authSlice, tokenSlice} from "./auth.api";
 
 const middlewareSlices = [
   authSlice.middleware,
+  tokenSlice.middleware,
 ]
 
 export const store = configureStore({
@@ -17,6 +18,7 @@ export const store = configureStore({
     session: sessionReducer,
     auth: authReducer,
     [authSlice.reducerPath]: authSlice.reducer,
+    [tokenSlice.reducerPath]: tokenSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

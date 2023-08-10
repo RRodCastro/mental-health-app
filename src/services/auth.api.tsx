@@ -1,13 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { saveDataLocalStorage } from "../utils/utils";
 
-const saveLocalStorage = (data: any) => {
-    const expirationDate = new Date().getTime() + parseInt(data.expiresIn) * 1000;
 
-    localStorage.setItem('token', data.idToken)
-    localStorage.setItem('expirationDate', expirationDate.toString())
-    localStorage.setItem('userId', data.localId)
-    localStorage.setItem('refreshToken', data.refreshToken);
-}
 const authSlice = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({
@@ -22,7 +16,7 @@ const authSlice = createApi({
 
             }),
             transformResponse: (data: any) => {
-                saveLocalStorage(data);
+                saveDataLocalStorage(data);
 
                 return data;
             }
@@ -34,16 +28,52 @@ const authSlice = createApi({
                 body: { ...body, returnSecureToken: true }
             }),
             transformResponse: (data: any) => {
-                saveLocalStorage(data);
+                saveDataLocalStorage(data);
                 return data;
             },
 
+        }),
+        refreshToken: builder.query({
+            query: (body) => ({
+                url: `:refreshToken?key=${import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY}`,
+                method: 'POST',
+                body: { ...body, grant_type: "refresh_token" }
+            }),
+            transformResponse: (data: any) => {
+                saveDataLocalStorage(data);
+                return data;
+            }
         })
     })
 });
 
 
+const tokenSlice = createApi({
+    reducerPath: "tokenApi",
+    baseQuery: fetchBaseQuery({
+        baseUrl: `https://securetoken.googleapis.com/v1/token?key=${import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY}`,
+    }),
+    endpoints: (builder) => ({
+        token: builder.query({
+            query: (body) => ({
+                url: "",
+                method: 'POST',
+                body: { ...body, grant_type: "refresh_token" }
+
+            }),
+            transformResponse: (data: any) => {
+                saveDataLocalStorage(data);
+
+                return data;
+            }
+        }),
+    })
+})
+
 export const { useLoginQuery, useLazyLoginQuery, useLazyRegisterQuery, useRegisterQuery } = authSlice;
-export default authSlice;
+export const { useLazyTokenQuery, useTokenQuery } = tokenSlice;
+
+export {authSlice , tokenSlice};
+
 
 

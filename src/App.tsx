@@ -18,15 +18,42 @@ import { useEffect } from 'react';
 import { setToken } from './services/auth.tsx';
 import SessionPage from './pages/Session/session.page.tsx';
 import ProfilePage from './pages/Profile/profile.page.tsx';
+import { useLazyTokenQuery } from './services/auth.api.tsx';
+import { CircularProgress } from '@mui/material';
+import { saveDataLocalStorage } from './utils/utils.tsx';
 
 const App = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state: RootState) => state.auth.token);
 
+  const [triggerRefresh, {isLoading}] = useLazyTokenQuery();
+  
+
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    const expiresAt = localStorage.getItem("expirationDate");
+
+    const refreshToken = localStorage.getItem("refreshToken");
+    const now = new Date().getTime();
+
+    const fetchToken = async () => {
+      const data = await triggerRefresh({refreshToken});
+      if (data.isSuccess) {
+        if (data.data.id_token) {
+          const { id_token, user_id, expires_in, refresh_token
+
+          } = data.data;
+          dispatch(setToken(data.data.id_token));
+          saveDataLocalStorage({idToken: id_token, localId: user_id, expiresIn: expires_in, refreshToken: refresh_token, });
+        }
+      }
+    }
+    if (token && parseInt(expiresAt || '') > now) {
       dispatch(setToken(token));
+    }
+    else if (refreshToken && parseInt(expiresAt || '') < now) { 
+      fetchToken();
     }
   }, []);
   
@@ -108,6 +135,10 @@ const App = () => {
 
       ]
   )
+  if (isLoading) {
+    return <CircularProgress size={60} />
+  }
+
   return (
     <>
       <RouterProvider router={router} />
