@@ -1,14 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./counter";
-import journalingReducer from "./journaling";
+import journalingReducer, { journalSlice } from "./journaling";
 import sessionReducer from "./sessions";
 import authReducer from './auth';
 
 import {authSlice, tokenSlice} from "./auth.api";
 
+import journalingApi from "./journaling.api";
+
 const middlewareSlices = [
   authSlice.middleware,
   tokenSlice.middleware,
+  journalingApi.middleware,
 ]
 
 export const store = configureStore({
@@ -19,6 +22,8 @@ export const store = configureStore({
     auth: authReducer,
     [authSlice.reducerPath]: authSlice.reducer,
     [tokenSlice.reducerPath]: tokenSlice.reducer,
+    [journalingApi.reducerPath]: journalingApi.reducer,
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

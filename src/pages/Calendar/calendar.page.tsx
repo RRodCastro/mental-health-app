@@ -7,13 +7,13 @@ import { setSelectedEntry, setSelectedKeysFromCalendar } from '../../services/jo
 import BackComponent from '../../components/back/back.component';
 import { useNavigate } from "react-router-dom";
 import { RootState } from '../../services/store';
-import { JournalEntry, emotionIcons } from '../../services/interfaces/journaling.interface';
+import { JournalEntryInterface, emotionIcons } from '../../services/interfaces/journaling.interface';
 import { EventContentArg } from '@fullcalendar/core/index.js';
 
 
 
 // Transoform the events to group them by date
-const groupEventsByDate = (journalEntry: JournalEntry[]) => {
+const groupEventsByDate = (journalEntry: JournalEntryInterface[]) => {
     const groupedEntries = journalEntry.reduce((accumulator, event) => {
         const eventDate = event.date.toISOString().slice(0, 10);
 
@@ -95,7 +95,7 @@ const CalendarPage = () => {
                 <Box className="calendar-entry-info-container">
                     {
                         // From the first selected key, find the event and display the info of the date
-                        entries.find((journalEntry: JournalEntry) => journalEntry.key === selectedKeysFromCalendar[0]) &&
+                        entries.find((journalEntry: JournalEntryInterface) => journalEntry.key === selectedKeysFromCalendar[0]) &&
                         <Box className="calendar-entry-info-date">
                             <Typography>
                                 { entries.find((event) => event.key === selectedKeysFromCalendar[0]).date.toDateString()}

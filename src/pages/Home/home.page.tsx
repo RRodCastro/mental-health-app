@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { forwardRef, useState, ReactElement, Ref } from 'react';
-import { Box, Fab, Typography } from "@mui/material";
+import { Box, CircularProgress, Fab, Typography } from "@mui/material";
 import SearchComponent from "../../components/search.component";
 import JournalEntry from "../../components/journaling/journal.entry.component";
 import { Add as AddIcon } from '@mui/icons-material';
@@ -17,6 +17,8 @@ import { setSelectedEntry } from "../../services/journaling";
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "../../services/store";
 import { useLoginQuery } from '../../services/auth.api.tsx';
+import { useGetEntriesQuery } from "../../services/journaling.api.tsx";
+import { JournalEntryInterface } from "../../services/interfaces/journaling.interface.tsx";
 
 
 const Transition = forwardRef(function Transition(
@@ -33,9 +35,14 @@ const Home = () => {
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const token = useSelector((state: RootState) => state.auth.token);
+    const userId = useSelector((state: RootState) => state.auth.userId);
 
-    const entries = useSelector((state: RootState) => state.journal.entries);
-
+    const {
+        data,
+        isFetching,
+        isLoading,
+      } = useGetEntriesQuery({ token: token, userId: userId });
 
     const handleClose = () => {
         localStorage.setItem("welcomeMessage", "1");
@@ -66,7 +73,9 @@ const Home = () => {
 
         )
     }
-
+    if (isLoading) {
+        return <CircularProgress size={60} />
+    }
     return (
         <Box className="home">
             <Typography style={{marginTop: '24px'}} variant="h2">
@@ -75,10 +84,10 @@ const Home = () => {
             <SearchComponent />
             <Box className="home-container">
                 <Box className="entries-container">
-                    {entries.map((entry) => {
+                    {(data || []).map((entry : JournalEntryInterface) => {
                         return (
                             <JournalEntry
-                                key={entry.key}
+                                key={entry.id}
                                 data={entry}
                                 handleEntryClick={() => {
                                     dispatch(setSelectedEntry(entry));

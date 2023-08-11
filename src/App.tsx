@@ -15,7 +15,7 @@ import { Outlet } from "react-router-dom";
 import Sessions from "./pages/Sessions/sessions.page.tsx";
 import { ProtectedRoute } from "./components/protected.layout.tsx";
 import { useEffect } from 'react';
-import { setToken } from './services/auth.tsx';
+import { setToken, setUserId } from './services/auth.tsx';
 import SessionPage from './pages/Session/session.page.tsx';
 import ProfilePage from './pages/Profile/profile.page.tsx';
 import { useLazyTokenQuery } from './services/auth.api.tsx';
@@ -33,7 +33,7 @@ const App = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const expiresAt = localStorage.getItem("expirationDate");
-
+    const userId = localStorage.getItem("userId");
     const refreshToken = localStorage.getItem("refreshToken");
     const now = new Date().getTime();
 
@@ -45,12 +45,14 @@ const App = () => {
 
           } = data.data;
           dispatch(setToken(data.data.id_token));
+          dispatch(setUserId(user_id));
           saveDataLocalStorage({idToken: id_token, localId: user_id, expiresIn: expires_in, refreshToken: refresh_token, });
         }
       }
     }
     if (token && parseInt(expiresAt || '') > now) {
       dispatch(setToken(token));
+      dispatch(setUserId(userId));
     }
     else if (refreshToken && parseInt(expiresAt || '') < now) { 
       fetchToken();

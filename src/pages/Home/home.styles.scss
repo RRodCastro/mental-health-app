@@ -23,8 +23,11 @@
         display: flex;
         flex-flow: column;
         gap: 16px;
-        width: 80%;
+        width: 100%;
         max-width: 800px;
+        @media (min-width: $mobile) {
+            min-width: 80%;
+        }
     }
 
     .add-entry {

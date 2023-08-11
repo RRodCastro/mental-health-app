@@ -23,17 +23,17 @@ export const emotionIcons = {
     },
 };
 
-export interface JournalEntry {
-    key: string;
-    date: Date;
+export interface JournalEntryInterface {
+    userId: string;
+    date: string;
     description: string;
     tags?: string[];
     mood: number,
-
+    id?: string;
 }
 
 export interface JournalingStateInterface { 
-    entries: JournalEntry[];
-    selectedEntry: JournalEntry | null;
+    entries: JournalEntryInterface[];
+    selectedEntry: JournalEntryInterface | null;
     selectedKeysFromCalendar: string[];
 }

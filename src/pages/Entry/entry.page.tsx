@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { RootState } from "../../services/store";
 import { emotionIcons } from "../../services/interfaces/journaling.interface";
+import { DateTime } from "luxon";
 
 const EntryPage = () => {
 
@@ -20,9 +21,6 @@ const EntryPage = () => {
         }
     }, []);
 
-    useEffect(() => {
-        console.log(location.pathname);
-    }, [location]);
 
     if (!journalEntry) {
         return (
@@ -36,6 +34,8 @@ const EntryPage = () => {
 
         );
     }
+    const date = DateTime.fromISO(journalEntry.date, { zone: "UTC"}).toLocal();
+
     return (
         <Box className="entry-container">
             <BackComponent />
@@ -43,13 +43,13 @@ const EntryPage = () => {
             <Box className="entry-container-date">
                 <Typography
                     variant="h5" className="entry-container-date-day">
-                    {journalEntry.date.toDateString()}
+                    {date.toFormat('LLLL dd, yyyy')}
                 </Typography>
                 <Box className="entry-container-emotion">
                 {emotionIcons[journalEntry.mood] ? emotionIcons[journalEntry.mood].icon : null }
 
                 <Typography className="entry-container-date-hour">
-                    {journalEntry.date.toDateString()}
+                    {date.toFormat('HH:mm')}
                 </Typography>
                 </Box>
             </Box>

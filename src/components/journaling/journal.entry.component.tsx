@@ -1,22 +1,22 @@
 import { Box, Typography } from "@mui/material"
+import { JournalEntryInterface } from "../../services/interfaces/journaling.interface";
+import { DateTime } from "luxon";
 
-export interface JournalEntry {
-    date: Date,
-    description: string,
-    tags: String[],
-}
 
-const JournalEntry = ({ data, handleEntryClick }: { data: JournalEntry, handleEntryClick: (data: JournalEntry) => void }) => {
+const JournalEntry = ({ data, handleEntryClick }: { data: JournalEntryInterface, handleEntryClick: (data: JournalEntryInterface) => void }) => {
+
+    const date = DateTime.fromISO(data.date, { zone: "UTC"}).toLocal();
+
     return (
         <Box
             onClick={() => handleEntryClick(data)}
             className="journal-entry">
             <Box className="journal-entry-date">
                 <Typography fontWeight="600">
-                    18:42
+                    {date.toFormat('HH:mm')}
                 </Typography>
                 <Typography style={{ opacity: 0.7 }}>
-                    April 30, 2023
+                {date.toFormat('LLLL dd, yyyy')}
                 </Typography>
             </Box>
             <Typography style={{textAlign: 'initial'}}>

@@ -1,12 +1,15 @@
-import { Box, Button, Fab, IconContainerProps, Rating, TextField, Typography, styled } from "@mui/material";
+import { Box, Button, CircularProgress, Fab, IconContainerProps, Rating, TextField, Typography, styled } from "@mui/material";
 import BackComponent from "../../components/back/back.component";
 import { useNavigate } from "react-router-dom";
 import { LocalOfferOutlined } from '@mui/icons-material';
 import TagsModal from "../../components/tags-modal/tags.component";
 import { useState } from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewEntry } from "../../services/journaling";
 import { emotionIcons } from "../../services/interfaces/journaling.interface";
+import { useLazyPostEntryQuery } from "../../services/journaling.api";
+import { RootState } from "../../services/store";
+import { DateTime } from "luxon";
 
 const customIcons: {
     [index: string]: {
@@ -28,10 +31,16 @@ const IconContainer = (props: IconContainerProps) => {
 const NewEntry = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [postEntry, { isLoading }] = useLazyPostEntryQuery();
+    const token = useSelector((state: RootState) => state.auth.token);
+    const userId = useSelector((state: RootState) => state.auth.userId);
 
-    const handleClick = () => {
-        navigate('/home');
-        dispatch(addNewEntry({ date: new Date(), description, tags, mood: emotion }))
+    const handleClick = async () => {
+        const now = DateTime.now();
+        const data = await postEntry({ token: token, body: { userId: userId, date: now.toUTC().toString(), description, tags, mood: emotion } });
+
+        // navigate('/home');
+        // dispatch(addNewEntry({ date: new Date(), description, tags, mood: emotion }))
     }
 
     const [tagsModalOpened, setTagsModal] = useState(false);
@@ -39,6 +48,9 @@ const NewEntry = () => {
     const [description, setDescription] = useState<string>("");
     const [emotion, setEmotion] = useState<number>(3);
 
+    if (isLoading) {
+        return <CircularProgress size={60} />
+    }
     return (
         <Box className="new-entry">
             <BackComponent />
