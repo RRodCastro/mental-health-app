@@ -7,11 +7,13 @@ import authReducer from './auth';
 import {authSlice, tokenSlice} from "./auth.api";
 
 import journalingApi from "./journaling.api";
+import activityApi from "./activity.api";
 
 const middlewareSlices = [
   authSlice.middleware,
   tokenSlice.middleware,
   journalingApi.middleware,
+  activityApi.middleware,
 ]
 
 export const store = configureStore({
@@ -23,6 +25,7 @@ export const store = configureStore({
     [authSlice.reducerPath]: authSlice.reducer,
     [tokenSlice.reducerPath]: tokenSlice.reducer,
     [journalingApi.reducerPath]: journalingApi.reducer,
+    [activityApi.reducerPath]: activityApi.reducer,
 
   },
   middleware: (getDefaultMiddleware) =>

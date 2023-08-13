@@ -5,6 +5,7 @@ const initialState: { token: string, userId: string } = {
     token: '',
     userId: '',
 }
+
 export const authSlice = createSlice({
     name: authingSliceName,
     initialState,

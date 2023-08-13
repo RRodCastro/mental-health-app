@@ -9,6 +9,8 @@ import { emotionIcons } from "../../services/interfaces/journaling.interface";
 import { useLazyGetEntriesQuery, useLazyPostEntryQuery } from "../../services/journaling.api";
 import { RootState } from "../../services/store";
 import { DateTime } from "luxon";
+import { useLazyRegisterQuery } from "../../services/auth.api";
+import { useGetActivityQuery, useLazyGetActivityQuery, useLazyPostActivityQuery } from "../../services/activity.api";
 
 const customIcons: {
     [index: string]: {
@@ -29,17 +31,26 @@ const IconContainer = (props: IconContainerProps) => {
 }
 const NewEntry = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
     const [postEntry, { isLoading, isError ,error }] = useLazyPostEntryQuery();
+    const [postActivty] = useLazyPostActivityQuery();
+
     const [getEntries] = useLazyGetEntriesQuery();
+    const [getActivity] = useLazyGetActivityQuery();
+
     const token = useSelector((state: RootState) => state.auth.token);
     const userId = useSelector((state: RootState) => state.auth.userId);
+    const [isFetchingData, setIsFetchingData] = useState(false);
 
     const handleClick = async () => {
         const now = DateTime.now();
-        const data = await postEntry({ token: token + '1', body: { userId: userId, date: now.toUTC().toString(), description, tags, mood: emotion } });
+        const data = await postEntry({ token: token, body: { userId: userId, date: now.toUTC().toString(), description, tags, mood: emotion } });
         if (data.isSuccess) {
-            const entries = await getEntries({ token: token, userId: userId });
+            setIsFetchingData(true);
+            await postActivty({  token: token, body: { userId: userId,  title: "Journal Entry", type: 0, date: now.toUTC().toString(), extra: { labels: tags } }});
+            await getEntries({ token: token, userId: userId });
+            await getActivity({ token: token, userId: userId });
+            setIsFetchingData(false);
+
             navigate('/home');
         }
     }
@@ -49,7 +60,7 @@ const NewEntry = () => {
     const [description, setDescription] = useState<string>("");
     const [emotion, setEmotion] = useState<number>(3);
 
-    if (isLoading) {
+    if (isLoading || isFetchingData) {
         return <CircularProgress size={60} />
     }
  
