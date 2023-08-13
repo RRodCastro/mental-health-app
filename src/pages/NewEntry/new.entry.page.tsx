@@ -4,13 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { LocalOfferOutlined } from '@mui/icons-material';
 import TagsModal from "../../components/tags-modal/tags.component";
 import { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { emotionIcons } from "../../services/interfaces/journaling.interface";
 import { useLazyGetEntriesQuery, useLazyPostEntryQuery } from "../../services/journaling.api";
 import { RootState } from "../../services/store";
 import { DateTime } from "luxon";
-import { useLazyRegisterQuery } from "../../services/auth.api";
-import { useGetActivityQuery, useLazyGetActivityQuery, useLazyPostActivityQuery } from "../../services/activity.api";
+import { useLazyGetActivityQuery, useLazyPostActivityQuery } from "../../services/activity.api";
 
 const customIcons: {
     [index: string]: {
