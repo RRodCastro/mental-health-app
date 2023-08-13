@@ -1,13 +1,12 @@
-import { Box, Button, CircularProgress, Fab, IconContainerProps, Rating, TextField, Typography, styled } from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Fab, IconContainerProps, Rating, TextField, Typography, styled } from "@mui/material";
 import BackComponent from "../../components/back/back.component";
 import { useNavigate } from "react-router-dom";
 import { LocalOfferOutlined } from '@mui/icons-material';
 import TagsModal from "../../components/tags-modal/tags.component";
 import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { addNewEntry } from "../../services/journaling";
 import { emotionIcons } from "../../services/interfaces/journaling.interface";
-import { useLazyPostEntryQuery } from "../../services/journaling.api";
+import { useLazyGetEntriesQuery, useLazyPostEntryQuery } from "../../services/journaling.api";
 import { RootState } from "../../services/store";
 import { DateTime } from "luxon";
 
@@ -31,16 +30,18 @@ const IconContainer = (props: IconContainerProps) => {
 const NewEntry = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [postEntry, { isLoading }] = useLazyPostEntryQuery();
+    const [postEntry, { isLoading, isError ,error }] = useLazyPostEntryQuery();
+    const [getEntries] = useLazyGetEntriesQuery();
     const token = useSelector((state: RootState) => state.auth.token);
     const userId = useSelector((state: RootState) => state.auth.userId);
 
     const handleClick = async () => {
         const now = DateTime.now();
-        const data = await postEntry({ token: token, body: { userId: userId, date: now.toUTC().toString(), description, tags, mood: emotion } });
-
-        // navigate('/home');
-        // dispatch(addNewEntry({ date: new Date(), description, tags, mood: emotion }))
+        const data = await postEntry({ token: token + '1', body: { userId: userId, date: now.toUTC().toString(), description, tags, mood: emotion } });
+        if (data.isSuccess) {
+            const entries = await getEntries({ token: token, userId: userId });
+            navigate('/home');
+        }
     }
 
     const [tagsModalOpened, setTagsModal] = useState(false);
@@ -51,6 +52,7 @@ const NewEntry = () => {
     if (isLoading) {
         return <CircularProgress size={60} />
     }
+ 
     return (
         <Box className="new-entry">
             <BackComponent />
@@ -60,6 +62,8 @@ const NewEntry = () => {
                 <Typography variant="h3">
                     New Entry
                 </Typography>
+                {isError && <Alert severity="error">{`An error ocurr:  ${error && error.data.error.message}`}</Alert>}
+
                 <TextField
                     className="new-entry-text-field"
                     id="new-entry-text-field"

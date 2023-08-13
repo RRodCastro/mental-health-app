@@ -20,7 +20,7 @@ import SessionPage from './pages/Session/session.page.tsx';
 import ProfilePage from './pages/Profile/profile.page.tsx';
 import { useLazyTokenQuery } from './services/auth.api.tsx';
 import { CircularProgress } from '@mui/material';
-import { saveDataLocalStorage } from './utils/utils.tsx';
+import { deleteDataLocalStorage, saveDataLocalStorage } from './utils/utils.tsx';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,7 +28,21 @@ const App = () => {
 
   const [triggerRefresh, {isLoading}] = useLazyTokenQuery();
   
+  const fetchToken = async (refreshToken: string) => {
+    const data = await triggerRefresh({refreshToken});
+    if (data.isSuccess) {
+      if (data.data.id_token) {
+        const { id_token, user_id, expires_in, refresh_token
 
+        } = data.data;
+        dispatch(setToken(data.data.id_token));
+        dispatch(setUserId(user_id));
+        saveDataLocalStorage({idToken: id_token, localId: user_id, expiresIn: expires_in, refreshToken: refresh_token, });
+      }
+    } else {
+      deleteDataLocalStorage();
+    }
+  }
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -37,25 +51,20 @@ const App = () => {
     const refreshToken = localStorage.getItem("refreshToken");
     const now = new Date().getTime();
 
-    const fetchToken = async () => {
-      const data = await triggerRefresh({refreshToken});
-      if (data.isSuccess) {
-        if (data.data.id_token) {
-          const { id_token, user_id, expires_in, refresh_token
-
-          } = data.data;
-          dispatch(setToken(data.data.id_token));
-          dispatch(setUserId(user_id));
-          saveDataLocalStorage({idToken: id_token, localId: user_id, expiresIn: expires_in, refreshToken: refresh_token, });
-        }
-      }
-    }
+    
     if (token && parseInt(expiresAt || '') > now) {
       dispatch(setToken(token));
       dispatch(setUserId(userId));
+      setTimeout( () => {
+        fetchToken(refreshToken || '');
+    } , (parseInt(expiresAt || '') - now))
     }
     else if (refreshToken && parseInt(expiresAt || '') < now) { 
-      fetchToken();
+      fetchToken(refreshToken);
+      setTimeout( () => {
+        fetchToken(refreshToken || '');
+    } , (parseInt(expiresAt || '') - now))
+    
     }
   }, []);
   
