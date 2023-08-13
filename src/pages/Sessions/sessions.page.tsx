@@ -1,17 +1,28 @@
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import SearchComponent from "../../components/search.component";
 import BackComponent from "../../components/back/back.component";
-import { Session } from "../../services/interfaces/sessions.interface";
+import { SessionInterface } from "../../services/interfaces/sessions.interface";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../services/store";
 import { setSelectedSession } from "../../services/sessions";
 import { useNavigate } from "react-router-dom";
+import { useGetSessionQuery } from "../../services/sessions.api";
 const Sessions = () => {
 
-    const mindfullnessSessions = useSelector((state: RootState) => state.session.sessions);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const token = useSelector((state: RootState) => state.auth.token);
+
+    const {
+        data,
+        isLoading,
+    } = useGetSessionQuery({ token: token });
+
+    if (isLoading) {
+        return <CircularProgress size={60} />
+
+    }
     return (
         <Box className="sessions">
             <BackComponent />
@@ -22,14 +33,15 @@ const Sessions = () => {
             <SearchComponent />
             <Box className="sessions-container">
                 {
-                    mindfullnessSessions.map((session: Session) => {
+                    (data || []).map((session: SessionInterface) => {
                         return (
                             <Box
-                                onClick={() => {                                         dispatch(setSelectedSession(session));
-                                    navigate(`/session/${session.key}`);
+                                onClick={() => {
+                                    dispatch(setSelectedSession(session));
+                                    navigate(`/session/${session.id}`);
 
                                 }}
-                                key={session.key} className="session-item">
+                                key={session.id} className="session-item">
 
                                 <Typography className="session-item-title" variant="h5">{session.title}</Typography>
                                 <Box

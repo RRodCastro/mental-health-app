@@ -8,18 +8,20 @@ const sessionSliceName = 'session'
 const initialState: SessionStateInterface = {
     sessions: [
         {
-            key: "sesssion-1",
-            title: "Mindfulness of Breath",
+            id: "sesssion-3",
+            title: "Mindfulness of Breath (1)",
             description: "These short mindfulness exercises focus on bringing awareness to the process of breathing. As something that we are doing all of the time, watching our breath allows us to come into the present moment and practice being aware.",
             duration: "10:00",
-            image: "https://i.ibb.co/71gS8pX/landscape.jpg"
+            image: "https://i.ibb.co/71gS8pX/landscape.jpg",
+            resource: ''
         },
         {
-            key: "sesssion-2",
-            title: "Mindfulness of Body",
+            id: "sesssion-4",
+            title: "Mindfulness of Body (2)",
             description: "Body scan meditations invite you to move your focus of attention around the body, being curious about your experience and observing any sensations that you become aware of. This can be a helpful practice for developing awareness of the body and mind.",
             duration: "12:00",
-            image: "https://i.ibb.co/W6sKxqk/stones.jpg"
+            image: "https://i.ibb.co/W6sKxqk/stones.jpg",
+            resource: ''
         },
     ],
     selectedSession: null,

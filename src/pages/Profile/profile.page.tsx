@@ -14,7 +14,7 @@ const pastDay = (DateTime.local().minus({ days: 3 }));
 
 const activities = [
     {
-        key: "sesssion-1",
+        id: "sesssion-1",
         title: "Body Scan",
         type: 1,
         date: pastDay.toUTC().toString(),
@@ -22,7 +22,7 @@ const activities = [
         userId: ''
     },
     {
-        key: "sesssion-2",
+        id: "sesssion-2",
         title: "Mindful Breathing",
         type: 1,
         date: yesterday.toUTC().toString(),
