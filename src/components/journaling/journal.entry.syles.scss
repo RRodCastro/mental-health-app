@@ -21,6 +21,11 @@
         }
     }
 
+    .journal-entry-description { 
+        display: flex;
+        justify-content: space-between;
+    }
+
     .journal-entry-date:last-child {
         opacity: 0.7;
     }

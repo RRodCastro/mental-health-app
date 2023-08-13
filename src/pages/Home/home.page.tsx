@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { setSelectedEntry } from "../../services/journaling";
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "../../services/store";
-import { useLoginQuery } from '../../services/auth.api.tsx';
 import { useGetEntriesQuery } from "../../services/journaling.api.tsx";
 import { JournalEntryInterface } from "../../services/interfaces/journaling.interface.tsx";
 
@@ -40,7 +39,6 @@ const Home = () => {
 
     const {
         data,
-        isFetching,
         isLoading,
       } = useGetEntriesQuery({ token: token, userId: userId });
 

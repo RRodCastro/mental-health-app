@@ -1,3 +1,5 @@
+import { DateTime } from "luxon";
+
 export const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const saveDataLocalStorage = ({ expiresIn, idToken, localId, refreshToken }: { expiresIn: string, idToken: string, localId: string, refreshToken: string }) => {
@@ -14,4 +16,16 @@ export const deleteDataLocalStorage = () => {
     localStorage.removeItem('expirationDate')
     localStorage.removeItem('userId')
     localStorage.removeItem('refreshToken')
+}
+
+export const formatISODate = (dateUTC: string | undefined, format?: string ) => {
+    if (undefined === dateUTC) {
+        return '';
+    }
+    const date = DateTime.fromISO(dateUTC);
+    if (!date.isValid) {
+        return '';
+    }
+    return date.toFormat(format || 'dd.MM.yyyy');
+
 }

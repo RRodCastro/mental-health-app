@@ -12,8 +12,10 @@ const journalingApi = createApi({
                 method: 'GET',
 
             }),
-            transformResponse: (data: any) => {
+            transformResponse: (data: any) : JournalEntryInterface[] => {
                 const transformedData = Object.keys(data).map((key) => { return { id: key, ...data[key] } });
+                transformedData.sort((a, b) => new Date(b.date) - new Date(a.date));
+
                 return transformedData;
             }
         }),
