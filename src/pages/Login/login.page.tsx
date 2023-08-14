@@ -2,7 +2,7 @@ import { Alert, Box, Button, CircularProgress, TextField, Typography } from "@mu
 import { useNavigate } from "react-router-dom";
 import { useLazyLoginQuery } from "../../services/auth.api";
 import { useDispatch } from "react-redux";
-import { setToken } from "../../services/auth";
+import { setToken, setUserId } from "../../services/auth";
 import { useState } from "react";
 import { emailRegex } from '../../utils/utils';
 
@@ -23,6 +23,8 @@ const Login = () => {
             if (data.isSuccess) {
                 if (data.data.idToken) {
                     dispatch(setToken(data.data.idToken));
+                    dispatch(setUserId(data.data.localId));
+                    
                     if (localStorage.getItem("welcomeMessage") === null) {
                         setTimeout(() => navigate("/home/welcome"), 100);
                     } else {

@@ -3,7 +3,7 @@ import { useLazyRegisterQuery } from "../../services/auth.api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setToken } from "../../services/auth";
+import { setToken, setUserId } from "../../services/auth";
 import { emailRegex } from '../../utils/utils';
 
 
@@ -25,6 +25,8 @@ const Register = () => {
             if (data.isSuccess) {
                 if (data.data.idToken) {
                     dispatch(setToken(data.data.idToken));
+                    dispatch(setUserId(data.data.localId));
+
                 }
                 setTimeout( () => navigate('/home'), 100);
             }
