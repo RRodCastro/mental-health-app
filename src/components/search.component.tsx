@@ -43,7 +43,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const SearchComponent = () => {
+const SearchComponent = ({value, onChange} : {value?: string, onChange?: (e: any) => void}) => {
     return (
         <Search className='search-container'>
             <SearchIconWrapper>
@@ -51,6 +51,8 @@ const SearchComponent = () => {
             </SearchIconWrapper>
             <StyledInputBase
                 inputProps={{ 'aria-label': 'search' }}
+                value={value || ''}
+                onChange={(e) =>  onChange && onChange(e)}
             />
         </Search>
     )

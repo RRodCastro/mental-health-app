@@ -1,7 +1,7 @@
 import './style/App.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from './services/store.tsx';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter, useLocation } from 'react-router-dom';
 import Landing from "./pages/Landing/landing.page.tsx";
 import Login from "./pages/Login/login.page.tsx";
 import ErrorPage from "./pages/Error/error.page.tsx";
@@ -151,9 +151,7 @@ const App = () => {
   }
 
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider router={router} />
   )
 }
 

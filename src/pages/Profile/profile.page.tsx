@@ -1,6 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material"
 import BackComponent from "../../components/back/back.component";
-import { DateTime } from 'luxon'
 import { BookOutlined, SelfImprovement } from "@mui/icons-material";
 import { deleteDataLocalStorage, formatISODate } from "../../utils/utils";
 import { resetToken, resetUserId } from "../../services/auth";
@@ -8,31 +7,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useGetActivityQuery } from "../../services/activity.api";
 import { RootState } from "../../services/store";
 import { ActivityInterface } from "../../services/interfaces/activity.interface";
-
-const yesterday = (DateTime.local().minus({ days: 1 }));
-const pastDay = (DateTime.local().minus({ days: 3 }));
-
-const activities = [
-    {
-        id: "sesssion-1",
-        title: "Body Scan",
-        type: 1,
-        date: pastDay.toUTC().toString(),
-        extra: { duration: "12 min" },
-        userId: ''
-    },
-    {
-        id: "sesssion-2",
-        title: "Mindful Breathing",
-        type: 1,
-        date: yesterday.toUTC().toString(),
-        extra: { duration: "18 min" },
-        userId: ''
-    },
-];
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const token = useSelector((state: RootState) => state.auth.token);
     const userId = useSelector((state: RootState) => state.auth.userId);
@@ -57,8 +36,8 @@ const ProfilePage = () => {
                 deleteDataLocalStorage();
                 dispatch(resetUserId());
                 dispatch(resetToken());
-
-                window.location.href = "/login";
+                
+                setTimeout(() => navigate('/login'), 500);
             }}>
                 <Typography>
                     Logout
@@ -71,7 +50,7 @@ const ProfilePage = () => {
                 </Typography>
                 <Box className="profile-activity-container">
                     {
-                        ([...(data || []), ...activities]).map((activity: ActivityInterface) => (
+                        (data || []).map((activity: ActivityInterface) => (
                             <Box key={activity.id} className="profile-activity-item">
 
                                 <Box className="profile-activity-item-icon" >

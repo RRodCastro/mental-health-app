@@ -18,9 +18,11 @@
     box-shadow: 0px 2px 24px #383838;
     transform: translate(-50%, -50%);
     text-align: center;
-
+    max-height: 350px;
     @media (min-width: $mobile) {
       min-width: 400px;
+      max-height: 550px;
+
     }
   }
 
@@ -31,6 +33,7 @@
     justify-content: center;
     margin-bottom: 16px;
     gap: 20px;
+    max-height: 300px;
 
     .search-container {
       margin: 24px 0;
@@ -43,6 +46,8 @@
       flex-flow: column;
       width: calc(100% - 32px);
       gap: 8px 0;
+      overflow: scroll;
+      max-height: 200px;
 
       .tags-modal-container-box-entry {
         display: flex;

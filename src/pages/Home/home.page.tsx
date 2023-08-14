@@ -32,6 +32,8 @@ const Transition = forwardRef(function Transition(
 const Home = () => {
     const { welcome } = useParams();
     const [open, setOpen] = useState(true);
+    const [searchValue, setSearchValue] = useState('');
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state: RootState) => state.auth.token);
@@ -40,7 +42,7 @@ const Home = () => {
     const {
         data,
         isLoading,
-      } = useGetEntriesQuery({ token: token, userId: userId });
+    } = useGetEntriesQuery({ token: token, userId: userId });
 
     const handleClose = () => {
         localStorage.setItem("welcomeMessage", "1");
@@ -76,13 +78,16 @@ const Home = () => {
     }
     return (
         <Box className="home">
-            <Typography style={{marginTop: '24px'}} variant="h2">
+            <Typography style={{ marginTop: '24px' }} variant="h2">
                 Home
             </Typography>
-            <SearchComponent />
+            <SearchComponent
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+            />
             <Box className="home-container">
                 <Box className="entries-container">
-                    {(data || []).map((entry : JournalEntryInterface) => {
+                    {(data || [])?.length > 0 ? (data || []).filter((entry: JournalEntryInterface) => entry.tags?.join("").toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) || entry.description.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).map((entry: JournalEntryInterface) => {
                         return (
                             <JournalEntry
                                 key={entry.id}
@@ -93,7 +98,7 @@ const Home = () => {
                                 }}
                             />
                         )
-                    })}
+                    }): <Typography style={{ marginTop: '24px' }} variant="h5"> No entries yet. Click the + button to add one.</Typography>}
                 </Box>
                 <Fab onClick={() => navigate('/new-entry')} className="add-entry" aria-label="add">
                     <AddIcon />

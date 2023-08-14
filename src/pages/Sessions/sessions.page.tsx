@@ -7,12 +7,14 @@ import { RootState } from "../../services/store";
 import { setSelectedSession } from "../../services/sessions";
 import { useNavigate } from "react-router-dom";
 import { useGetSessionQuery } from "../../services/sessions.api";
+import { useState } from "react";
 const Sessions = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const token = useSelector((state: RootState) => state.auth.token);
+    const [searchValue, setSearchValue] = useState<string>('');
 
     const {
         data,
@@ -30,10 +32,11 @@ const Sessions = () => {
             <Typography style={{ marginTop: '24px' }} variant="h2">
                 Sessions
             </Typography>
-            <SearchComponent />
+            <SearchComponent value={searchValue} onChange={(e) => setSearchValue(e.target.value)}
+            />
             <Box className="sessions-container">
                 {
-                    (data || []).map((session: SessionInterface) => {
+                    (data || []).filter((session: SessionInterface) => session.title.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase()) || session.description.toLocaleLowerCase().includes(searchValue.toLocaleLowerCase())).map((session: SessionInterface) => {
                         return (
                             <Box
                                 onClick={() => {
