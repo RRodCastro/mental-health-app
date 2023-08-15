@@ -8,20 +8,24 @@ const journalingApi = createApi({
     endpoints: (builder) => ({
         getEntries: builder.query({
             query: ({token, userId} : {token: string, userId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/entries.json?auth=${token}&orderBy="userId"&equalTo="${userId}"`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/entries.json?auth=${token}"`,
                 method: 'GET',
 
             }),
             transformResponse: (data: any) : JournalEntryInterface[] => {
-                const transformedData = Object.keys(data).map((key) => { return { id: key, ...data[key] } });
-                transformedData.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                return transformedData;
+                if (data) {
+                    const transformedData = Object.keys(data).map((key) => { return { id: key, ...data[key] } });
+                    transformedData.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+                    return transformedData;
+                }
+                
+                return [];
             }
         }),
         postEntry: builder.query({
-            query: ({body, token}: {body: JournalEntryInterface, token: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/entries.json?auth=${token}`,
+            query: ({body, token, userId}: {body: JournalEntryInterface, token: string, userId: string}) => ({
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/entries.json?auth=${token}`,
                 method: 'POST',
                 body: body
             }),

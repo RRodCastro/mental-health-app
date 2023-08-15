@@ -29,13 +29,20 @@
             cursor: pointer;
             
             .session-item-image {
-                min-width: 314px;
-                min-height: 153px;
-                width: 350px;
-                height: 350px;
+                min-width: 246px;
+                min-height: 120px;
+                width: 246px;
+                height: 120px;
                 align-self: center;
                 object-fit: cover;
                 border-radius: 20px;
+
+                @media (min-width: $mobile) {
+                    min-width: 314px;
+                    min-height: 153px;
+                    width: 350px;
+                    height: 350px;
+                }
             }
             .session-item-title {
                 font-weight: 600;

@@ -4,7 +4,7 @@ export interface ActivityInterface {
     type: number,
     date: string,
     extra: ExtraDataInterface,
-    userId: string;
+    entry?: string;
 }
 
 interface ExtraDataInterface {

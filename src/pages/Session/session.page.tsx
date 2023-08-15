@@ -65,7 +65,7 @@ const SessionPage = () => {
     const finishSession =  async () => {
         const now = DateTime.now();
 
-        await postActivty({ token: token, body: { userId: userId, title: session.title, type: 1, date: now.toUTC().toString(), extra: { duration: `${session.duration.split(":")[0]} min` } } });
+        await postActivty({ token: token, userId: userId, body: { title: session.title, type: 1, date: now.toUTC().toString(), extra: { duration: `${session.duration.split(":")[0]} min` } } });
         await getActivity({ token: token, userId: userId });
         navigate(-1);
     }

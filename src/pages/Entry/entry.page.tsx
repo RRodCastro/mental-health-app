@@ -7,12 +7,18 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { RootState } from "../../services/store";
 import { emotionIcons } from "../../services/interfaces/journaling.interface";
 import { DateTime } from "luxon";
+import { useGetActivityQuery } from "../../services/activity.api";
 
 const EntryPage = () => {
 
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
+    const token = useSelector((state: RootState) => state.auth.token);
+    const userId = useSelector((state: RootState) => state.auth.userId);
 
+    const {
+        data: activityData,
+    } = useGetActivityQuery({ token: token, userId: userId });
 
     const journalEntry = useSelector((state: RootState) => state.journal.selectedEntry);
     useEffect(() => {
@@ -35,6 +41,15 @@ const EntryPage = () => {
         );
     }
     const date = DateTime.fromISO(journalEntry.date, { zone: "UTC"}).toLocal();
+    const handleDelete = () => {
+        const { id } = journalEntry;
+        // lazy delete etnries
+        navigate("/home");
+        const keyActivity = activityData?.find((t) => t.entry === journalEntry.id)
+        if (keyActivity) {
+         // lazy delete activity
+        }
+    }
 
     return (
         <Box className="entry-container">

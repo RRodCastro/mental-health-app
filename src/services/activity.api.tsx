@@ -8,20 +8,24 @@ const activityApi = createApi({
     endpoints: (builder) => ({
         getActivity: builder.query({
             query: ({token, userId} : {token: string, userId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/activity.json?auth=${token}&orderBy="userId"&equalTo="${userId}"`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity.json?auth=${token}"`,
                 method: 'GET',
 
             }),
             transformResponse: (data: any) : ActivityInterface[] => {
-                const transformedData = Object.keys(data).map((key) => { return { id: key, ...data[key] } });
-                transformedData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                if (data) {
 
-                return transformedData;
+                    const transformedData = Object.keys(data).map((key) => { return { id: key, ...data[key] } });
+                    transformedData.sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+                    return transformedData;
+                }
+                return [];
             }
         }),
         postActivity: builder.query({
-            query: ({body, token}: {body: ActivityInterface, token: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/activity.json?auth=${token}`,
+            query: ({body, token, userId}: {body: ActivityInterface, token: string, userId: string}) => ({
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity.json?auth=${token}`,
                 method: 'POST',
                 body: body
             }),
