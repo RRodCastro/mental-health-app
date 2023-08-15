@@ -11,6 +11,7 @@ import { JournalEntryInterface, emotionIcons } from '../../services/interfaces/j
 import { EventContentArg } from '@fullcalendar/core/index.js';
 import { useGetEntriesQuery } from '../../services/journaling.api';
 import { formatISODate } from '../../utils/utils';
+import { useRef } from 'react';
 
 
 
@@ -54,12 +55,21 @@ const CalendarPage = () => {
     const navigate = useNavigate();
     const token = useSelector((state: RootState) => state.auth.token);
     const userId = useSelector((state: RootState) => state.auth.userId);
-
+    const entryContainerRef = useRef(null);
     const {
         data,
         isLoading,
       } = useGetEntriesQuery({ token: token, userId: userId });
 
+    const scrollToElement = () => {
+        const yOffset = -10;
+        if (entryContainerRef !== null && entryContainerRef.current !== null) {
+
+            const y = entryContainerRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      };
     const renderEventContent = (eventInfo: EventContentArg) => {
         // Get the average emotion
         const average = calculateAverageEmotion(eventInfo.event.extendedProps.emotion);
@@ -97,14 +107,15 @@ const CalendarPage = () => {
                 }
                 eventClick={(eventInfo) => {
                     dispatch(setSelectedKeysFromCalendar(eventInfo.event.extendedProps.keys));
-
+                    setTimeout(() => scrollToElement() , 400);
                 }}
                 
                 /* dayHeaders={false} */
             />
             </Box>
+            <Box ref={entryContainerRef} className="calendar-entry-info-container">
             {selectedKeysFromCalendar && selectedKeysFromCalendar.length > 0 &&
-                <Box className="calendar-entry-info-container">
+                <>
                     {
                         // From the first selected key, find the event and display the info of the date
                         (data || []).find((journalEntry: JournalEntryInterface) => journalEntry.id === selectedKeysFromCalendar[0]) &&
@@ -152,7 +163,9 @@ const CalendarPage = () => {
                         }
                         )
                     }
-                </Box>}
+                    </>
+               }
+                </Box>
         </Box>
     )
 }
