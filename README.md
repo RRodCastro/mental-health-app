@@ -37,6 +37,12 @@ This is a mental health app built using React, Redux, RTK Query, and Firebase. T
     ```bash
     npm run dev
     ```
+4. Build the application:
+
+    ```bash
+    npm run build
+    firebase deploy --only hosting
+    ```
 
 Open your browser and navigate to http://localhost:3000 to access the app.
 ## Technologies Used
