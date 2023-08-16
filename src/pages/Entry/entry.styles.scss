@@ -12,6 +12,7 @@
         display: flex;
         gap: 12px 0;
         flex-flow: column;
+        width: 100%;
 
         .entry-container-emotion {
             display: flex;
@@ -20,6 +21,16 @@
         .entry-container-date-day,
         .entry-container-date-hour {
             font-weight: 500;
+        }
+        .entry-container-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 80%;
+
+            .entry-container-actions-delete {
+                cursor: pointer;
+            }
         }
 
     }

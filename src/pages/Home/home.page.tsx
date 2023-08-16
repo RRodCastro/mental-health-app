@@ -65,7 +65,6 @@ const Home = () => {
     }
 
     useEffect( () =>  {
-        console.log(isEntriesError);
         if (isEntriesError ) {
           dispatch(setIsUnauthorized(true));
         

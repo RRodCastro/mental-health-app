@@ -33,12 +33,30 @@ const activityApi = createApi({
                 return data;
             },
         }),
+        getActivityByEntry: builder.query({
+            query: ({token, userId, entryId}: {body: ActivityInterface, token: string, userId: string, entryId: string}) => ({
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity.json?auth=${token}&orderBy="entry"&equalTo="${entryId}"`,
+                method: 'GET'
+            }),
+            transformResponse: (data: any) => {
+                return data;
+            },
+        }),
+        deleteActivity: builder.query({
+            query: ({token, userId, activityId}: { token: string, userId: string, activityId: string}) => ({
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity/${activityId}.json?auth=${token}`,
+                method: 'DELETE',
+            }),
+            transformResponse: (data: any) => {
+                return data;
+            },
+        }),
     })
 });
 
 
 
-export const { useGetActivityQuery, useLazyGetActivityQuery, useLazyPostActivityQuery, usePostActivityQuery } = activityApi;
+export const { useGetActivityQuery, useLazyGetActivityQuery, useLazyPostActivityQuery, usePostActivityQuery, useLazyGetActivityByEntryQuery, useLazyDeleteActivityQuery } = activityApi;
 
 export default activityApi;
 

@@ -48,6 +48,7 @@
       gap: 8px 0;
       overflow: scroll;
       max-height: 200px;
+      overflow-x: hidden;
 
       .tags-modal-container-box-entry {
         display: flex;

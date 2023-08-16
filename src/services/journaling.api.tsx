@@ -33,12 +33,21 @@ const journalingApi = createApi({
                 return data;
             },
         }),
+        deleteEntry: builder.query({
+            query: ({token, userId, entryId}: {token: string, userId: string, entryId: string}) => ({
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/entries/${entryId}.json?auth=${token}`,
+                method: 'DELETE'
+            }),
+            transformResponse: (data: any) => {
+                return data;
+            },
+        }),
     })
 });
 
 
 
-export const { usePostEntryQuery, useLazyGetEntriesQuery, useLazyPostEntryQuery, useGetEntriesQuery } = journalingApi;
+export const { usePostEntryQuery, useLazyGetEntriesQuery, useLazyPostEntryQuery, useGetEntriesQuery, useLazyDeleteEntryQuery } = journalingApi;
 
 export default journalingApi;
 

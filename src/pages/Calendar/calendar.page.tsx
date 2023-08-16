@@ -64,7 +64,6 @@ const CalendarPage = () => {
       } = useGetEntriesQuery({ token: token, userId: userId });
 
     useEffect( () =>  {
-        console.log(isEntriesError);
         if (isEntriesError ) {
           dispatch(setIsUnauthorized(true));
         

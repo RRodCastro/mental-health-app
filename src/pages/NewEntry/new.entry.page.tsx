@@ -44,7 +44,6 @@ const NewEntry = () => {
         const now = DateTime.now();
         const data = await postEntry({ token: token, userId: userId, body: { date: now.toUTC().toString(), description, tags, mood: emotion } });
         if (data.isSuccess) {
-            console.log("data " , data.data);
             setIsFetchingData(true);
             await postActivty({  token: token, userId: userId, body: { title: "Journal Entry", type: 0, date: now.toUTC().toString(), extra: { labels: tags }, entry: data.data.name || '' }});
             await getEntries({ token: token, userId: userId });
