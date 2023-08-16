@@ -11,7 +11,8 @@ import { JournalEntryInterface, emotionIcons } from '../../services/interfaces/j
 import { EventContentArg } from '@fullcalendar/core/index.js';
 import { useGetEntriesQuery } from '../../services/journaling.api';
 import { formatISODate } from '../../utils/utils';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { setIsUnauthorized } from '../../services/auth';
 
 
 
@@ -59,7 +60,16 @@ const CalendarPage = () => {
     const {
         data,
         isLoading,
+        isError: isEntriesError,
       } = useGetEntriesQuery({ token: token, userId: userId });
+
+    useEffect( () =>  {
+        console.log(isEntriesError);
+        if (isEntriesError ) {
+          dispatch(setIsUnauthorized(true));
+        
+    } },
+    [isEntriesError]);
 
     const scrollToElement = () => {
         const yOffset = -10;

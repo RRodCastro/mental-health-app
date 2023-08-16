@@ -15,21 +15,22 @@ import { Outlet } from "react-router-dom";
 import Sessions from "./pages/Sessions/sessions.page.tsx";
 import { ProtectedRoute } from "./components/protected.layout.tsx";
 import { useEffect } from 'react';
-import { setToken, setUserId } from './services/auth.tsx';
+import { resetToken, resetUserId, setIsUnauthorized, setToken, setUserId } from './services/auth.tsx';
 import SessionPage from './pages/Session/session.page.tsx';
 import ProfilePage from './pages/Profile/profile.page.tsx';
 import { useLazyTokenQuery } from './services/auth.api.tsx';
-import { CircularProgress } from '@mui/material';
+import { Alert, Box, Button, CircularProgress } from '@mui/material';
 import { deleteDataLocalStorage, saveDataLocalStorage } from './utils/utils.tsx';
 
 const App = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector((state: RootState) => state.auth.token);
+  const isUnauthorized = useSelector((state: RootState) => state.auth.isUnauthorized);
 
-  const [triggerRefresh, {isLoading}] = useLazyTokenQuery();
-  
+  const [triggerRefresh, { isLoading }] = useLazyTokenQuery();
+
   const fetchToken = async (refreshToken: string) => {
-    const data = await triggerRefresh({refreshToken});
+    const data = await triggerRefresh({ refreshToken });
     if (data.isSuccess) {
       if (data.data.id_token) {
         const { id_token, user_id, expires_in, refresh_token
@@ -37,7 +38,7 @@ const App = () => {
         } = data.data;
         dispatch(setToken(data.data.id_token));
         dispatch(setUserId(user_id));
-        saveDataLocalStorage({idToken: id_token, localId: user_id, expiresIn: expires_in, refreshToken: refresh_token, });
+        saveDataLocalStorage({ idToken: id_token, localId: user_id, expiresIn: expires_in, refreshToken: refresh_token, });
       }
     } else {
       deleteDataLocalStorage();
@@ -51,23 +52,23 @@ const App = () => {
     const refreshToken = localStorage.getItem("refreshToken");
     const now = new Date().getTime();
 
-    
+
     if (token && parseInt(expiresAt || '') > now) {
       dispatch(setToken(token));
       dispatch(setUserId(userId));
-      setTimeout( () => {
+      setTimeout(() => {
         fetchToken(refreshToken || '');
-    } , (parseInt(expiresAt || '') - now))
+      }, (parseInt(expiresAt || '') - now))
     }
-    else if (refreshToken && parseInt(expiresAt || '') < now) { 
+    else if (refreshToken && parseInt(expiresAt || '') < now) {
       fetchToken(refreshToken);
-      setTimeout( () => {
+      setTimeout(() => {
         fetchToken(refreshToken || '');
-    } , (parseInt(expiresAt || '') - now))
-    
+      }, (parseInt(expiresAt || '') - now))
+
     }
   }, []);
-  
+
 
   const Layout = () => (<> <Outlet />  <ProtectedRoute> <BottomNavigationComponent /> </ProtectedRoute> </>)
   const router = createBrowserRouter(
@@ -151,7 +152,20 @@ const App = () => {
   }
 
   return (
-    <RouterProvider router={router} />
+    <>
+      {isUnauthorized && <Box style={{'display': 'flex', 'justifyContent': 'center'}}>
+        <Alert sx={{width: '60%'}} severity="error"> There is a connection error, please refresh the page or try to <Button onClick={() => {
+          deleteDataLocalStorage();
+          dispatch(resetUserId());
+          dispatch(resetToken());
+          dispatch(setIsUnauthorized(false));
+
+          setTimeout(() => document.location.href = "/", 500);
+        }} style={{height: '22px', marginLeft: '8px'}}  variant="outlined" color="error"> logout </Button></Alert>
+      </Box>}
+      <RouterProvider router={router} />
+
+    </>
   )
 }
 

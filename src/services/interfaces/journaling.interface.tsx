@@ -24,7 +24,6 @@ export const emotionIcons = {
 };
 
 export interface JournalEntryInterface {
-    userId: string;
     date: string;
     description: string;
     tags?: string[];

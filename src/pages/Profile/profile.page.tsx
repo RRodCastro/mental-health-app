@@ -2,12 +2,13 @@ import { Box, CircularProgress, Typography } from "@mui/material"
 import BackComponent from "../../components/back/back.component";
 import { BookOutlined, SelfImprovement } from "@mui/icons-material";
 import { deleteDataLocalStorage, formatISODate } from "../../utils/utils";
-import { resetToken, resetUserId } from "../../services/auth";
+import { resetToken, resetUserId, setIsUnauthorized } from "../../services/auth";
 import { useDispatch, useSelector } from 'react-redux'
 import { useGetActivityQuery } from "../../services/activity.api";
 import { RootState } from "../../services/store";
 import { ActivityInterface } from "../../services/interfaces/activity.interface";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const ProfilePage = () => {
     const dispatch = useDispatch();
@@ -19,8 +20,15 @@ const ProfilePage = () => {
     const {
         data,
         isLoading,
+        isError: isActivityError,
     } = useGetActivityQuery({ token: token, userId: userId });
 
+
+    useEffect( () =>  {
+        if (isActivityError ) {
+          dispatch(setIsUnauthorized(true));
+        
+    } }, [isActivityError]);
 
     if (isLoading) {
         return <CircularProgress size={60} />

@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import { forwardRef, useState, ReactElement, Ref } from 'react';
+import { forwardRef, useState, ReactElement, Ref, useEffect } from 'react';
 import { Box, CircularProgress, Fab, Typography } from "@mui/material";
 import SearchComponent from "../../components/search.component";
 import JournalEntry from "../../components/journaling/journal.entry.component";
@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from "../../services/store";
 import { useGetEntriesQuery } from "../../services/journaling.api.tsx";
 import { JournalEntryInterface } from "../../services/interfaces/journaling.interface.tsx";
+import { useGetActivityQuery } from "../../services/activity.api.tsx";
+import { setIsUnauthorized } from "../../services/auth.tsx";
 
 
 const Transition = forwardRef(function Transition(
@@ -39,15 +41,36 @@ const Home = () => {
     const token = useSelector((state: RootState) => state.auth.token);
     const userId = useSelector((state: RootState) => state.auth.userId);
 
+    const isUnauthorized = useSelector((state: RootState) => state.auth.isUnauthorized);
+
     const {
         data,
         isLoading,
+        isError: isEntriesError,
     } = useGetEntriesQuery({ token: token, userId: userId });
+
+    const {
+        data: activityData,
+    } = useGetActivityQuery({ token: token, userId: userId });
 
     const handleClose = () => {
         localStorage.setItem("welcomeMessage", "1");
         setOpen(false);
     };
+
+    const handleDeleteEntry = (id: string) => {
+        // dispatch(deleteEntry({ token: token, userId: userId, entryId: id }));
+        // dispatch(deleteEntry({ token: token, userId: userId, entryId: id }));
+
+    }
+
+    useEffect( () =>  {
+        console.log(isEntriesError);
+        if (isEntriesError ) {
+          dispatch(setIsUnauthorized(true));
+        
+    } },
+    [isEntriesError]);
 
     if (welcome && open && !localStorage.getItem("welcomeMessage")) {
         return (
@@ -76,9 +99,10 @@ const Home = () => {
     if (isLoading) {
         return <CircularProgress size={60} />
     }
+
     return (
         <Box className="home">
-            <Typography style={{ marginTop: '24px' }} variant="h2">
+            <Typography  style={{ marginTop: '24px' }} variant="h2">
                 Home
             </Typography>
             <SearchComponent
