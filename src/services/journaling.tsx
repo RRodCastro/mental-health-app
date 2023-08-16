@@ -100,6 +100,9 @@ export const journalSlice = createSlice({
         setSelectedKeysFromCalendar(state, action) {
             state.selectedKeysFromCalendar = action.payload;
         },
+        resetSelectedKeysFromCalendar(state) {
+            state.selectedKeysFromCalendar = initialState.selectedKeysFromCalendar;
+        },
         addNewEntry(state, action) {
             const maxKey = Math.max(...state.entries.map((entry) => parseInt(entry.key.replace("entry-", ""))));
             state.entries.push({...action.payload, key: 'entry-' + (maxKey + 1)});
@@ -107,6 +110,6 @@ export const journalSlice = createSlice({
     }
 })
 
-export const { setSelectedEntry, resetSelectedEntry, setSelectedKeysFromCalendar, addNewEntry } = journalSlice.actions;
+export const { setSelectedEntry, resetSelectedEntry, setSelectedKeysFromCalendar, addNewEntry, resetSelectedKeysFromCalendar } = journalSlice.actions;
 
 export default journalSlice.reducer;

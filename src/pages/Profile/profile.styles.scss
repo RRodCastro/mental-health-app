@@ -32,6 +32,9 @@
             display: flex;
             margin: 16px 24px;
             align-items: center;
+            p {
+                font-weight: 600;
+            }
         }
         .profile-activity-item {
             padding-bottom: 10px;

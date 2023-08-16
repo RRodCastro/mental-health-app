@@ -10,6 +10,8 @@ import { DateTime } from "luxon";
 import { useGetActivityQuery, useLazyDeleteActivityQuery, useLazyGetActivityQuery } from "../../services/activity.api";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import { useLazyDeleteEntryQuery, useLazyGetEntriesQuery } from "../../services/journaling.api";
+import { resetSelectedEntry, resetSelectedKeysFromCalendar } from "../../services/journaling";
+import { useDispatch } from 'react-redux'
 
 const EntryPage = () => {
 
@@ -18,7 +20,7 @@ const EntryPage = () => {
     const userId = useSelector((state: RootState) => state.auth.userId);
     const [isLoading, setIsLoading] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-
+    const dispatch = useDispatch();
     const {
         data: activityData,
     } = useGetActivityQuery({ token: token, userId: userId });
@@ -69,6 +71,10 @@ const EntryPage = () => {
                 const activityId = activityData?.find((t) => t.entry === id)?.id;
                 if (activityId) {
                     const data = await deleteActivity({ token, userId, activityId });
+                    dispatch(resetSelectedEntry());
+                    dispatch(resetSelectedKeysFromCalendar());
+
+                    
                     if (data.isSuccess) {
                         await getActivity({ token, userId });
                         await getEntries({ token, userId });
