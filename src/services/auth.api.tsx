@@ -43,7 +43,17 @@ const authSlice = createApi({
                 saveDataLocalStorage(data);
                 return data;
             }
-        })
+        }),
+        resetPassword: builder.query({
+            query: (body : {email: string}) => ({
+                url: `:sendOobCode?key=${import.meta.env.VITE_REACT_APP_FIREBASE_API_KEY}`,
+                method: 'POST',
+                body: { ...body, requestType: "PASSWORD_RESET" }
+            }),
+            transformResponse: (data: any) => {
+                return data;
+            }
+        }),
     })
 });
 
@@ -70,7 +80,7 @@ const tokenSlice = createApi({
     })
 })
 
-export const { useLoginQuery, useLazyLoginQuery, useLazyRegisterQuery, useRegisterQuery } = authSlice;
+export const { useLoginQuery, useLazyLoginQuery, useLazyRegisterQuery, useRegisterQuery, useLazyResetPasswordQuery } = authSlice;
 export const { useLazyTokenQuery, useTokenQuery } = tokenSlice;
 
 export {authSlice , tokenSlice};

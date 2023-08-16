@@ -4,6 +4,11 @@
     flex-flow: column;
     gap: 32px;
     margin-top: 128px;
+    .lading-image {
+        margin-bottom: 64px;
+        max-width: 1200px;
+        width: 100%;
+    }
 
     .login-email, .login-password{
         width: 80%;
@@ -11,5 +16,9 @@
     }
     button {
         min-width: 164px;
+    }
+    .forgot-password {
+        cursor: pointer;
+        text-decoration: underline;
     }
 }
