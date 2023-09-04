@@ -8,7 +8,7 @@ const activityApi = createApi({
     endpoints: (builder) => ({
         getActivity: builder.query({
             query: ({token, userId} : {token: string, userId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity.json?auth=${token}"`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/users/${userId}/activity.json?auth=${token}"`,
                 method: 'GET',
 
             }),
@@ -25,7 +25,7 @@ const activityApi = createApi({
         }),
         postActivity: builder.query({
             query: ({body, token, userId}: {body: ActivityInterface, token: string, userId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity.json?auth=${token}`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/users/${userId}/activity.json?auth=${token}`,
                 method: 'POST',
                 body: body
             }),
@@ -35,7 +35,7 @@ const activityApi = createApi({
         }),
         getActivityByEntry: builder.query({
             query: ({token, userId, entryId}: {body: ActivityInterface, token: string, userId: string, entryId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity.json?auth=${token}&orderBy="entry"&equalTo="${entryId}"`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/users/${userId}/activity.json?auth=${token}&orderBy="entry"&equalTo="${entryId}"`,
                 method: 'GET'
             }),
             transformResponse: (data: any) => {
@@ -44,7 +44,7 @@ const activityApi = createApi({
         }),
         deleteActivity: builder.query({
             query: ({token, userId, activityId}: { token: string, userId: string, activityId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/activity/${activityId}.json?auth=${token}`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/users/${userId}/activity/${activityId}.json?auth=${token}`,
                 method: 'DELETE',
             }),
             transformResponse: (data: any) => {

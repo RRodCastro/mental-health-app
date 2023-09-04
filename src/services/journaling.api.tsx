@@ -8,7 +8,7 @@ const journalingApi = createApi({
     endpoints: (builder) => ({
         getEntries: builder.query({
             query: ({token, userId} : {token: string, userId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/entries.json?auth=${token}"`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/users/${userId}/entries.json?auth=${token}"`,
                 method: 'GET',
 
             }),
@@ -25,7 +25,7 @@ const journalingApi = createApi({
         }),
         postEntry: builder.query({
             query: ({body, token, userId}: {body: JournalEntryInterface, token: string, userId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/entries.json?auth=${token}`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/users/${userId}/entries.json?auth=${token}`,
                 method: 'POST',
                 body: body
             }),
@@ -35,7 +35,7 @@ const journalingApi = createApi({
         }),
         deleteEntry: builder.query({
             query: ({token, userId, entryId}: {token: string, userId: string, entryId: string}) => ({
-                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/${userId}/entries/${entryId}.json?auth=${token}`,
+                url: `${import.meta.env.VITE_REACT_APP_FIRESTORE_URL}/users/${userId}/entries/${entryId}.json?auth=${token}`,
                 method: 'DELETE'
             }),
             transformResponse: (data: any) => {

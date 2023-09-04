@@ -82,8 +82,6 @@ const ProfilePage = () => {
 
     }
 
-    const streak =  calculateConsecutiveDays(data || []);
-
     return (
         <Box className="profile-container">
             <BackComponent />
@@ -107,9 +105,9 @@ const ProfilePage = () => {
                 <Typography style={{ fontWeight: 600 }}>
                     Your activity
                 </Typography>
-                <Box className="profile-activity-container">
+               { data && data.length > 0 ? <Box className="profile-activity-container">
                     {
-                        streak > 0 && <Box className="profile-activity-container-streak">
+                        calculateConsecutiveDays(data || []) > 0 && <Box className="profile-activity-container-streak">
                             <FireIcon color="warning" />
                             <Typography>
                                 {calculateConsecutiveDays(data || [])} days Streak! Keep going
@@ -146,7 +144,10 @@ const ProfilePage = () => {
                         )
                         )
                     }
-                </Box>
+                </Box> :
+                <Typography>
+                        Seems you don't have activity yet
+                </Typography>}
             </Box>
 
         </Box >
